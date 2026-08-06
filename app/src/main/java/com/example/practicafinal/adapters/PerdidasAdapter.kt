@@ -1,0 +1,68 @@
+package com.example.practicafinal.adapters
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.example.practicafinal.R
+import com.example.practicafinal.model.Publicacion
+import com.example.practicafinal.util.decodificarImagen
+import com.example.practicafinal.util.fechaRelativa
+
+class PerdidasAdapter(
+    private val items: List<Publicacion>,
+    private val onSighting: (Publicacion) -> Unit
+) : RecyclerView.Adapter<PerdidasAdapter.PerdidaViewHolder>() {
+
+    class PerdidaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val imgFoto: ImageView = view.findViewById(R.id.img_foto)
+        val tvPlaceholder: TextView = view.findViewById(R.id.tv_placeholder)
+        val tvNombre: TextView = view.findViewById(R.id.tv_nombre)
+        val tvUltimoLugar: TextView = view.findViewById(R.id.tv_ultimo_lugar)
+        val tvFecha: TextView = view.findViewById(R.id.tv_fecha)
+        val tvEstado: TextView = view.findViewById(R.id.tv_estado)
+        val btnVi: com.google.android.material.button.MaterialButton =
+            view.findViewById(R.id.btn_vi)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PerdidaViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_perdida_card, parent, false)
+        return PerdidaViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: PerdidaViewHolder, position: Int) {
+        val p = items[position]
+
+        // Foto o placeholder
+        val foto = p.foto?.let { decodificarImagen(holder.itemView.context, it, 8) }
+        if (foto != null) {
+            holder.imgFoto.setImageBitmap(foto)
+            holder.tvPlaceholder.visibility = View.GONE
+        } else {
+            holder.imgFoto.setImageDrawable(null)
+            holder.tvPlaceholder.visibility = View.VISIBLE
+        }
+
+        holder.tvNombre.text = p.nombre
+        holder.tvUltimoLugar.text = p.ultimoLugar?.let { "📍 Última vez: $it" }
+            ?: "📍 Sin ubicación de referencia"
+        holder.tvFecha.text = fechaRelativa(p.fechaCreacion)
+
+        val resuelta = p.estado == "Resuelta"
+        holder.tvEstado.text = if (resuelta) "● Resuelta" else "● Activa"
+        holder.tvEstado.setTextColor(
+            ContextCompat.getColor(
+                holder.itemView.context,
+                if (resuelta) android.R.color.darker_gray else R.color.verde_estado
+            )
+        )
+        holder.btnVi.isEnabled = !resuelta
+        holder.btnVi.setOnClickListener { onSighting(p) }
+    }
+
+    override fun getItemCount(): Int = items.size
+}

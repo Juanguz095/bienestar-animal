@@ -12,124 +12,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Etiqueta de título -->
+    <!-- Pista para publicar -->
     <TextView
-        android:id="@+id/tv_titulo_mapa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_chip_map"
-        android:elevation="4dp"
-        android:paddingStart="14dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="14dp"
-        android:paddingBottom="8dp"
-        android:text="🚨 Alertas cerca de ti"
-        android:textColor="#1A1A1A"
-        android:textSize="13sp"
-        android:textStyle="bold"
+        android:elevation="2dp"
+        android:paddingStart="10dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="4dp"
+        android:text="Mantén presionado el mapa para publicar"
+        android:textColor="#9E9E9E"
+        android:textSize="11sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Chips de filtro -->
-    <LinearLayout
-        android:id="@+id/filtros_mapa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:elevation="4dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_titulo_mapa">
-
-        <!-- Perdidas -->
-        <LinearLayout
-            android:id="@+id/chip_mapa_perdidas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_chip_filtro_on_perdida"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="6dp">
-
-            <View
-                android:id="@+id/dot_mapa_perdidas"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:background="@drawable/bg_dot_rojo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:text="Perdidas"
-                android:textColor="#1A1A1A"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Encontradas -->
-        <LinearLayout
-            android:id="@+id/chip_mapa_encontradas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/bg_chip_filtro_on_encontrada"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="6dp">
-
-            <View
-                android:id="@+id/dot_mapa_encontradas"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:background="@drawable/bg_dot_verde" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:text="Encontradas"
-                android:textColor="#1A1A1A"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Albergues -->
-        <LinearLayout
-            android:id="@+id/chip_mapa_albergues"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/bg_chip_filtro_on_albergue"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="6dp">
-
-            <View
-                android:id="@+id/dot_mapa_albergues"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:background="@drawable/bg_dot_morado" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:text="Albergues"
-                android:textColor="#1A1A1A"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
 
     <!-- Botón recentrar ubicación -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -192,13 +91,27 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginStart="14dp"
-            android:background="@drawable/bg_dot_morado" />
+            android:background="@drawable/bg_dot_naranja" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:text="Albergues"
+            android:text="Adopciones"
+            android:textColor="#616161"
+            android:textSize="11sp" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="14dp"
+            android:background="@drawable/bg_dot_amarillo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="Avistamientos"
             android:textColor="#616161"
             android:textSize="11sp" />
     </LinearLayout>
@@ -253,6 +166,14 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/panel_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#9E9E9E"
+            android:textSize="12sp" />
+
         <!-- Descripción -->
         <TextView
             android:id="@+id/panel_desc"
@@ -271,7 +192,16 @@
             android:textColor="#9E9E9E"
             android:textSize="12sp" />
 
-        <!-- Botones -->
+        <!-- Estado y antigüedad -->
+        <TextView
+            android:id="@+id/panel_estado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- Botones fila 1 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -301,6 +231,68 @@
                 android:textSize="12sp"
                 app:strokeColor="#1A1A1A" />
         </LinearLayout>
+
+        <!-- Botones fila 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/panel_ver"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="👀  Sé dónde está"
+                android:textColor="#1A1A1A"
+                android:textSize="12sp"
+                app:strokeColor="#1E88E5" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/panel_resolver"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="✓  Resolver"
+                android:textColor="#1A1A1A"
+                android:textSize="12sp"
+                app:strokeColor="#43A047" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Botones de zoom (entre perfil y menú) -->
+    <LinearLayout
+        android:id="@+id/zoom_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_zoom_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Acercar"
+            app:fabCustomSize="44dp"
+            app:maxImageSize="22dp"
+            app:srcCompat="@drawable/ic_fab_menu" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_zoom_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Alejar"
+            app:fabCustomSize="44dp"
+            app:maxImageSize="22dp"
+            app:srcCompat="@drawable/ic_menos" />
     </LinearLayout>
 
     <!-- Botón de perfil (esquina inferior izquierda) -->
