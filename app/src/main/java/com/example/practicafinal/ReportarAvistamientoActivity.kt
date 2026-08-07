@@ -4,14 +4,19 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.practicafinal.db.DatabaseHelper
 import com.example.practicafinal.session.SesionManager
+import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.XYTileSource
@@ -33,6 +38,19 @@ class ReportarAvistamientoActivity : AppCompatActivity() {
     private lateinit var pinSeleccion: Marker
     private var puntoSeleccionado: GeoPoint? = null
     private lateinit var etDescripcion: EditText
+    private var fotoAvistUri: String? = null
+    private lateinit var imgFotoAvist: ImageView
+    private lateinit var tvFotoHintAvist: TextView
+
+    private val pickerGaleria = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri != null) {
+            fotoAvistUri = uri.toString()
+            imgFotoAvist.setImageBitmap(decodificarImagen(this, uri.toString(), 4))
+            tvFotoHintAvist.visibility = View.GONE
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +63,8 @@ class ReportarAvistamientoActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_reportar_avistamiento)
 
+        setContentView(R.layout.activity_reportar_avistamiento)
+
         findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar)
             .setNavigationOnClickListener { finish() }
 
@@ -52,6 +72,13 @@ class ReportarAvistamientoActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tv_mascota).text = "👀 Avistamiento de $nombre"
 
         etDescripcion = findViewById(R.id.et_descripcion)
+        imgFotoAvist = findViewById(R.id.img_foto_avist)
+        tvFotoHintAvist = findViewById(R.id.tv_foto_hint_avist)
+
+        findViewById<View>(R.id.contenedor_foto_avist).setOnClickListener {
+            pickerGaleria.launch("image/*")
+        }
+
         configurarMapa()
 
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_reportar)
@@ -64,10 +91,14 @@ class ReportarAvistamientoActivity : AppCompatActivity() {
         map.setTileSource(
             XYTileSource(
                 "OpenStreetMap", 0, 19, 256, ".png",
-                arrayOf("https://tile.openstreetmap.org/")
+                arrayOf(
+                    "https://tile.openstreetmap.org/",
+                    "https://a.tile.openstreetmap.org/",
+                    "https://b.tile.openstreetmap.org/",
+                    "https://c.tile.openstreetmap.org/"
+                )
             )
         )
-        map.setMultiTouchControls(true)
         map.setBuiltInZoomControls(false)
         map.controller.setZoom(15.0)
 
@@ -123,7 +154,7 @@ class ReportarAvistamientoActivity : AppCompatActivity() {
         executor.execute {
             val usuarioId = SesionManager.obtenerUsuarioId(this)
             DatabaseHelper(this).insertarAvistamiento(
-                publicacionId, usuarioId, punto.latitude, punto.longitude, descripcion
+                publicacionId, usuarioId, punto.latitude, punto.longitude, descripcion, fotoAvistUri
             )
             runOnUiThread {
                 Toast.makeText(this, "¡Avistamiento reportado! Gracias 🙌", Toast.LENGTH_SHORT).show()

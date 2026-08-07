@@ -10,7 +10,7 @@ import com.example.practicafinal.model.Usuario
 import java.security.MessageDigest
 import java.security.SecureRandom
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_animal.db", null, 3) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_animal.db", null, 4) {
 
     companion object {
         private const val TABLA_USUARIOS = "usuarios"
@@ -37,6 +37,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
                     "descripcion TEXT NOT NULL, " +
                     "foto TEXT, " +
                     "ultimo_lugar TEXT, " +
+                    "especie TEXT, " +
                     "latitud REAL NOT NULL, " +
                     "longitud REAL NOT NULL, " +
                     "fecha_creacion INTEGER NOT NULL, " +
@@ -50,6 +51,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
                     "latitud REAL NOT NULL, " +
                     "longitud REAL NOT NULL, " +
                     "descripcion TEXT NOT NULL DEFAULT '', " +
+                    "foto TEXT, " +
                     "fecha INTEGER NOT NULL)"
         )
     }
@@ -131,6 +133,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         descripcion: String,
         foto: String?,
         ultimoLugar: String?,
+        especie: String?,
         latitud: Double,
         longitud: Double
     ): Long {
@@ -141,6 +144,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
             put("descripcion", descripcion)
             put("foto", foto)
             put("ultimo_lugar", ultimoLugar)
+            put("especie", especie)
             put("latitud", latitud)
             put("longitud", longitud)
             put("fecha_creacion", System.currentTimeMillis())
@@ -159,6 +163,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
             val idx = cursor.getColumnIndexOrThrow("usuario_id")
             val idxFoto = cursor.getColumnIndexOrThrow("foto")
             val idxLugar = cursor.getColumnIndexOrThrow("ultimo_lugar")
+            val idxEspecie = cursor.getColumnIndexOrThrow("especie")
             lista.add(
                 Publicacion(
                     id = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
@@ -168,6 +173,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
                     descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
                     foto = if (cursor.isNull(idxFoto)) null else cursor.getString(idxFoto),
                     ultimoLugar = if (cursor.isNull(idxLugar)) null else cursor.getString(idxLugar),
+                    especie = if (cursor.isNull(idxEspecie)) null else cursor.getString(idxEspecie),
                     latitud = cursor.getDouble(cursor.getColumnIndexOrThrow("latitud")),
                     longitud = cursor.getDouble(cursor.getColumnIndexOrThrow("longitud")),
                     fechaCreacion = cursor.getLong(cursor.getColumnIndexOrThrow("fecha_creacion")),
@@ -182,6 +188,36 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
     fun obtenerPerdidas(): List<Publicacion> =
         obtenerPublicaciones().filter { it.tipo == "Perdida" }
 
+    fun obtenerPorIdPublicacion(id: Long): Publicacion? {
+        val cursor = readableDatabase.query(
+            TABLA_PUBLICACIONES, null, "id = ?", arrayOf(id.toString()),
+            null, null, null
+        )
+        var p: Publicacion? = null
+        if (cursor.moveToFirst()) {
+            val idx = cursor.getColumnIndexOrThrow("usuario_id")
+            val idxFoto = cursor.getColumnIndexOrThrow("foto")
+            val idxLugar = cursor.getColumnIndexOrThrow("ultimo_lugar")
+            val idxEspecie = cursor.getColumnIndexOrThrow("especie")
+            p = Publicacion(
+                id = id,
+                usuarioId = if (cursor.isNull(idx)) null else cursor.getLong(idx),
+                tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo")),
+                nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+                foto = if (cursor.isNull(idxFoto)) null else cursor.getString(idxFoto),
+                ultimoLugar = if (cursor.isNull(idxLugar)) null else cursor.getString(idxLugar),
+                especie = if (cursor.isNull(idxEspecie)) null else cursor.getString(idxEspecie),
+                latitud = cursor.getDouble(cursor.getColumnIndexOrThrow("latitud")),
+                longitud = cursor.getDouble(cursor.getColumnIndexOrThrow("longitud")),
+                fechaCreacion = cursor.getLong(cursor.getColumnIndexOrThrow("fecha_creacion")),
+                estado = cursor.getString(cursor.getColumnIndexOrThrow("estado"))
+            )
+        }
+        cursor.close()
+        return p
+    }
+
     // ─── Avistamientos ─────────────────────────────────────────────
 
     fun insertarAvistamiento(
@@ -189,7 +225,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         usuarioId: Long?,
         latitud: Double,
         longitud: Double,
-        descripcion: String
+        descripcion: String,
+        foto: String?
     ): Long {
         val values = ContentValues().apply {
             put("publicacion_id", publicacionId)
@@ -197,6 +234,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
             put("latitud", latitud)
             put("longitud", longitud)
             put("descripcion", descripcion)
+            put("foto", foto)
             put("fecha", System.currentTimeMillis())
         }
         return writableDatabase.insert(TABLA_AVISTAMIENTOS, null, values)
@@ -210,6 +248,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         )
         while (cursor.moveToNext()) {
             val idx = cursor.getColumnIndexOrThrow("usuario_id")
+            val idxFoto = cursor.getColumnIndexOrThrow("foto")
             lista.add(
                 Avistamiento(
                     id = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
@@ -218,6 +257,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
                     latitud = cursor.getDouble(cursor.getColumnIndexOrThrow("latitud")),
                     longitud = cursor.getDouble(cursor.getColumnIndexOrThrow("longitud")),
                     descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+                    foto = if (cursor.isNull(idxFoto)) null else cursor.getString(idxFoto),
                     fecha = cursor.getLong(cursor.getColumnIndexOrThrow("fecha"))
                 )
             )
@@ -229,6 +269,33 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
     fun marcarResuelta(id: Long) {
         val values = ContentValues().apply { put("estado", "Resuelta") }
         writableDatabase.update(TABLA_PUBLICACIONES, values, "id = ?", arrayOf(id.toString()))
+    }
+
+    fun obtenerAvistamientosPorPublicacion(publicacionId: Long): List<Avistamiento> {
+        val lista = mutableListOf<Avistamiento>()
+        val cursor = readableDatabase.query(
+            TABLA_AVISTAMIENTOS, null,
+            "publicacion_id = ?", arrayOf(publicacionId.toString()),
+            null, null, "fecha DESC"
+        )
+        while (cursor.moveToNext()) {
+            val idx = cursor.getColumnIndexOrThrow("usuario_id")
+            val idxFoto = cursor.getColumnIndexOrThrow("foto")
+            lista.add(
+                Avistamiento(
+                    id = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
+                    publicacionId = publicacionId,
+                    usuarioId = if (cursor.isNull(idx)) null else cursor.getLong(idx),
+                    latitud = cursor.getDouble(cursor.getColumnIndexOrThrow("latitud")),
+                    longitud = cursor.getDouble(cursor.getColumnIndexOrThrow("longitud")),
+                    descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+                    foto = if (cursor.isNull(idxFoto)) null else cursor.getString(idxFoto),
+                    fecha = cursor.getLong(cursor.getColumnIndexOrThrow("fecha"))
+                )
+            )
+        }
+        cursor.close()
+        return lista
     }
 
     /** Actualiza la ubicación al reportar un avistamiento ("Sé dónde está"). */

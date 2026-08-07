@@ -17,7 +17,8 @@
         android:theme="@style/Theme.PracticaFinal">
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,6 +49,9 @@
             android:exported="false" />
         <activity
             android:name=".ReportarAvistamientoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetalleAdopcionActivity"
             android:exported="false" />
     </application>
 

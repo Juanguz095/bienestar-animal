@@ -67,6 +67,42 @@
                 android:textColor="#9E9E9E"
                 android:textSize="12sp" />
 
+            <!-- Foto (opcional) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Foto del avistamiento (opcional)"
+                android:textColor="#616161"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:id="@+id/contenedor_foto_avist"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_card_image"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/img_foto_avist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tv_foto_hint_avist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="📷\nAgregar foto"
+                    android:textColor="#9E9E9E"
+                    android:textSize="11sp"
+                    android:gravity="center" />
+            </FrameLayout>
+
             <!-- Descripción -->
             <TextView
                 android:layout_width="wrap_content"

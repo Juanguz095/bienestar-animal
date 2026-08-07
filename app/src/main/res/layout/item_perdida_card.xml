@@ -89,6 +89,16 @@
                 android:textColor="#1A1A1A"
                 android:textSize="12sp"
                 app:strokeColor="#1E88E5" />
+
+            <TextView
+                android:id="@+id/tv_avist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#F57F17"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

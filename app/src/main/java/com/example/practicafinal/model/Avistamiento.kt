@@ -7,5 +7,6 @@ data class Avistamiento(
     val latitud: Double,
     val longitud: Double,
     val descripcion: String,
+    val foto: String?,
     val fecha: Long
 )

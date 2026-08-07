@@ -8,13 +8,16 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.R
+import com.example.practicafinal.model.Avistamiento
 import com.example.practicafinal.model.Publicacion
 import com.example.practicafinal.util.decodificarImagen
 import com.example.practicafinal.util.fechaRelativa
 
 class PerdidasAdapter(
     private val items: List<Publicacion>,
-    private val onSighting: (Publicacion) -> Unit
+    private val avistPorPublicacion: Map<Long, List<Avistamiento>>,
+    private val onSighting: (Publicacion) -> Unit,
+    private val onVerAvistamientos: (Publicacion) -> Unit
 ) : RecyclerView.Adapter<PerdidasAdapter.PerdidaViewHolder>() {
 
     class PerdidaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -26,6 +29,7 @@ class PerdidasAdapter(
         val tvEstado: TextView = view.findViewById(R.id.tv_estado)
         val btnVi: com.google.android.material.button.MaterialButton =
             view.findViewById(R.id.btn_vi)
+        val tvAvist: TextView = view.findViewById(R.id.tv_avist)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PerdidaViewHolder {
@@ -62,6 +66,17 @@ class PerdidasAdapter(
         )
         holder.btnVi.isEnabled = !resuelta
         holder.btnVi.setOnClickListener { onSighting(p) }
+
+        // Contador de avistamientos
+        val avistCount = avistPorPublicacion[p.id]?.size ?: 0
+        if (avistCount > 0) {
+            holder.tvAvist.visibility = View.VISIBLE
+            holder.tvAvist.text = "👀 $avistCount avistamiento${if (avistCount > 1) "s" else ""}"
+            holder.tvAvist.setOnClickListener { onVerAvistamientos(p) }
+        } else {
+            holder.tvAvist.visibility = View.GONE
+            holder.tvAvist.setOnClickListener(null)
+        }
     }
 
     override fun getItemCount(): Int = items.size

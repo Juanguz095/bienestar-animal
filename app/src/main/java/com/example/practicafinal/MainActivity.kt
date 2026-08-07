@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -39,11 +38,9 @@ class MainActivity : AppCompatActivity() {
     private var circleOverlay: Polygon? = null
     private var circuloBusqueda: Polygon? = null
 
-    // Marcadores de publicaciones y avistamientos
     private val marcadoresAlertas = mutableListOf<Marker>()
     private val marcadoresAvistamientos = mutableListOf<Marker>()
 
-    // Panel inferior
     private lateinit var panel: View
     private lateinit var panelEmoji: TextView
     private lateinit var panelTitulo: TextView
@@ -67,7 +64,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Si no hay sesión iniciada, ir al Login
         if (!SesionManager.tieneSesion(this)) {
             startActivity(
                 Intent(this, LoginActivity::class.java).apply {
@@ -91,18 +87,20 @@ class MainActivity : AppCompatActivity() {
         map.setTileSource(
             XYTileSource(
                 "OpenStreetMap", 0, 19, 256, ".png",
-                arrayOf("https://tile.openstreetmap.org/")
+                arrayOf(
+                    "https://tile.openstreetmap.org/",
+                    "https://a.tile.openstreetmap.org/",
+                    "https://b.tile.openstreetmap.org/",
+                    "https://c.tile.openstreetmap.org/"
+                )
             )
         )
         map.setMultiTouchControls(true)
-        // Desactivar los controles de zoom integrados (interfieren con el long-press)
         map.setBuiltInZoomControls(false)
 
-        // Mantener presionado el mapa: crear publicación en ese punto
         map.overlays.add(
             MapEventsOverlay(object : MapEventsReceiver {
                 override fun singleTapConfirmedHelper(p: GeoPoint): Boolean = false
-
                 override fun longPressHelper(p: GeoPoint): Boolean {
                     startActivity(
                         Intent(this@MainActivity, CrearPublicacionActivity::class.java).apply {
@@ -115,7 +113,6 @@ class MainActivity : AppCompatActivity() {
             })
         )
 
-        // Panel inferior
         panel = findViewById(R.id.panel_alerta)
         panelEmoji = findViewById(R.id.panel_emoji)
         panelTitulo = findViewById(R.id.panel_titulo)
@@ -129,7 +126,6 @@ class MainActivity : AppCompatActivity() {
         panel.findViewById<MaterialButton>(R.id.panel_ver).setOnClickListener { reportarAvistamiento() }
         panel.findViewById<MaterialButton>(R.id.panel_resolver).setOnClickListener { resolverAlerta() }
 
-        // Botones flotantes
         findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
             R.id.fab_menu
         ).setOnClickListener { startActivity(Intent(this, MenuOpcionesActivity::class.java)) }
@@ -138,12 +134,18 @@ class MainActivity : AppCompatActivity() {
             R.id.fab_perfil
         ).setOnClickListener { startActivity(Intent(this, PerfilActivity::class.java)) }
 
-        // Botón recentrar: vuelve a la ubicación del usuario
         findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
             R.id.fab_recenter
         ).setOnClickListener { centrarEnUsuario() }
 
-        // Botones de zoom propios
+        findViewById<TextView>(R.id.btn_leyenda).setOnClickListener {
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("📖 Leyenda del mapa")
+                .setView(R.layout.dialog_leyenda)
+                .setPositiveButton("Entendido", null)
+                .show()
+        }
+
         findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
             R.id.fab_zoom_in
         ).setOnClickListener { map.controller.zoomIn() }
@@ -152,8 +154,28 @@ class MainActivity : AppCompatActivity() {
             R.id.fab_zoom_out
         ).setOnClickListener { map.controller.zoomOut() }
 
+        cargarAlertasDesdeBD()
+
+        // Si vino de "Ver ubicación en el mapa", centrar en ese punto
+        centrarEnPunto(intent)
+
         if (tienePermisoUbicacion()) centrarEnUsuario()
         else requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        centrarEnPunto(intent)
+    }
+
+    private fun centrarEnPunto(intent: Intent) {
+        val lat = intent.getDoubleExtra("centrar_lat", Double.NaN)
+        val lng = intent.getDoubleExtra("centrar_lng", Double.NaN)
+        if (!lat.isNaN() && !lng.isNaN()) {
+            map.controller.setZoom(16.0)
+            map.controller.animateTo(GeoPoint(lat, lng))
+            map.invalidate()
+        }
     }
 
     // ─── Alertas desde la base de datos ────────────────────────────
@@ -161,36 +183,33 @@ class MainActivity : AppCompatActivity() {
     private fun cargarAlertasDesdeBD() {
         executor.execute {
             val db = DatabaseHelper(this)
-
-            // Primera vez: sembrar datos de ejemplo para que el mapa no esté vacío
             if (db.obtenerPublicaciones().isEmpty()) {
                 db.insertarPublicacion(
                     null, "Perdida", "Max",
-                    "Se perdió cerca del Centro de Lima", null, "Centro de Lima",
+                    "Se perdió cerca del Centro de Lima", null, "Centro de Lima", "Perro",
                     -12.0464, -77.0428
                 )
                 db.insertarPublicacion(
                     null, "Perdida", "Michi",
-                    "Se perdió en La Victoria", null, "La Victoria",
+                    "Se perdió en La Victoria", null, "La Victoria", "Gato",
                     -12.0670, -77.0337
                 )
                 db.insertarPublicacion(
                     null, "Encontrada", "Luna",
-                    "Encontrado en Lince, busca dueño", null, "Lince",
+                    "Encontrado en Lince, busca dueño", null, "Lince", "Perro",
                     -12.0911, -77.0359
                 )
                 db.insertarPublicacion(
                     null, "Adopcion", "Pelusa",
-                    "Gatita en busca de un hogar", null, null,
+                    "Gatita en busca de un hogar", null, null, "Gato",
                     -12.0850, -77.0050
                 )
                 db.insertarPublicacion(
                     null, "Adopcion", "Rocky",
-                    "Perrito cariñoso en adopción", null, null,
+                    "Perrito cariñoso en adopción", null, null, "Perro",
                     -12.0200, -77.0800
                 )
             }
-
             val lista = db.obtenerPublicaciones()
             val avistamientos = db.obtenerAvistamientos()
             val nombres = lista.associate { it.id to it.nombre }
@@ -210,7 +229,6 @@ class MainActivity : AppCompatActivity() {
 
         lista.forEach { publicacion ->
             val punto = GeoPoint(publicacion.latitud, publicacion.longitud)
-
             val m = Marker(map)
             m.position = punto
             m.icon = ContextCompat.getDrawable(this, iconoPara(publicacion))
@@ -226,15 +244,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
-
             map.overlays.add(m)
             marcadoresAlertas.add(m)
         }
 
-        // Pines amarillos: avistamientos reportados por la comunidad
         avistamientos.forEach { avistamiento ->
             val punto = GeoPoint(avistamiento.latitud, avistamiento.longitud)
-
             val m = Marker(map)
             m.position = punto
             m.icon = ContextCompat.getDrawable(this, R.drawable.ic_pin_amarillo)
@@ -249,11 +264,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
-
             map.overlays.add(m)
             marcadoresAvistamientos.add(m)
         }
-
         map.invalidate()
     }
 
@@ -269,8 +282,6 @@ class MainActivity : AppCompatActivity() {
         "Encontrada" -> "Mascota encontrada"
         else -> "En adopción"
     }
-
-    // ─── Permisos y ubicación ──────────────────────────────────────
 
     private fun tienePermisoUbicacion(): Boolean =
         ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
@@ -289,16 +300,31 @@ class MainActivity : AppCompatActivity() {
     private fun centrarEnUsuario() {
         val ubicacion = obtenerUltimaUbicacion()
         if (ubicacion != null) {
-            val punto = GeoPoint(ubicacion.latitude, ubicacion.longitude)
-            userLocation = punto
-            agregarMarcadorUsuario(punto)
-            agregarCirculoCerca(punto)
-            map.controller.setZoom(16.0)
-            map.controller.setCenter(punto)
+            centrarEnPunto(ubicacion)
         } else {
-            Toast.makeText(this, "Ubicación no disponible", Toast.LENGTH_SHORT).show()
-            centrarEnLima()
+            // Pedir una ubicación fresca al GPS
+            try {
+                val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                lm.requestSingleUpdate(
+                    LocationManager.GPS_PROVIDER,
+                    { loc -> centrarEnPunto(loc) },
+                    mainLooper
+                )
+            } catch (_: SecurityException) {
+                Toast.makeText(this, "Ubicación no disponible", Toast.LENGTH_SHORT).show()
+                centrarEnLima()
+            }
         }
+    }
+
+    private fun centrarEnPunto(ubicacion: Location) {
+        val punto = GeoPoint(ubicacion.latitude, ubicacion.longitude)
+        userLocation = punto
+        agregarMarcadorUsuario(punto)
+        agregarCirculoCerca(punto)
+        map.controller.setZoom(16.0)
+        map.controller.setCenter(punto)
+        map.invalidate()
     }
 
     private fun centrarEnLima() {
@@ -316,53 +342,33 @@ class MainActivity : AppCompatActivity() {
         map.overlays.add(m)
     }
 
-    // ─── Círculos ──────────────────────────────────────────────────
-
     private fun agregarCirculoCerca(centro: GeoPoint) {
         circleOverlay?.let { map.overlays.remove(it) }
-        val puntos = (0..48).map { i ->
-            centro.destinationPoint(2000.0, i * 360.0 / 48)
-        }
         circleOverlay = Polygon().apply {
-            points = puntos
-            fillColor = 0x141E88E5
-            strokeColor = 0x401E88E5
-            strokeWidth = 2f
+            points = (0..48).map { centro.destinationPoint(2000.0, it * 360.0 / 48) }
+            fillColor = 0x141E88E5; strokeColor = 0x401E88E5; strokeWidth = 2f
         }
         map.overlays.add(0, circleOverlay)
         map.invalidate()
     }
 
-    /** Zona probable de búsqueda para mascotas perdidas (radio 1.5 km). */
     private fun mostrarCirculoBusqueda(publicacion: Publicacion) {
-        circuloBusqueda?.let { map.overlays.remove(it) }
-        circuloBusqueda = null
-
+        circuloBusqueda?.let { map.overlays.remove(it) }; circuloBusqueda = null
         if (publicacion.tipo == "Perdida" && publicacion.estado == "Activa") {
             val centro = GeoPoint(publicacion.latitud, publicacion.longitud)
-            val puntos = (0..48).map { i ->
-                centro.destinationPoint(1500.0, i * 360.0 / 48)
-            }
             circuloBusqueda = Polygon().apply {
-                points = puntos
-                fillColor = 0x14E53935
-                strokeColor = 0x40E53935
-                strokeWidth = 2f
+                points = (0..48).map { centro.destinationPoint(1500.0, it * 360.0 / 48) }
+                fillColor = 0x14E53935; strokeColor = 0x40E53935; strokeWidth = 2f
             }
             map.overlays.add(circuloBusqueda)
             map.invalidate()
         }
     }
 
-    // ─── Panel inferior ────────────────────────────────────────────
-
     private fun mostrarPanel(publicacion: Publicacion) {
         alertaActual = publicacion
-
         panelEmoji.text = when (publicacion.tipo) {
-            "Perdida" -> "🐾"
-            "Encontrada" -> "🐶"
-            else -> "🐱"
+            "Perdida" -> "🐾"; "Encontrada" -> "🐶"; else -> "🐱"
         }
         panelTitulo.text = publicacion.nombre
         panelTipo.text = when {
@@ -372,61 +378,38 @@ class MainActivity : AppCompatActivity() {
             else -> tipoLabel(publicacion.tipo)
         }
         panelDesc.text = publicacion.descripcion
-
         val punto = GeoPoint(publicacion.latitud, publicacion.longitud)
         val distKm = userLocation?.distanceToAsDouble(punto)?.div(1000.0)
         panelUbicacion.text = if (distKm != null) "📍 A %.1f km de ti".format(distKm)
         else "📍 Lima, Perú"
-
         val resuelta = publicacion.estado == "Resuelta"
-        panelEstado.text = if (resuelta)
-            "● Resuelta · ${fechaRelativa(publicacion.fechaCreacion)}"
-        else
-            "● Activa · ${fechaRelativa(publicacion.fechaCreacion)}"
+        panelEstado.text = if (resuelta) "● Resuelta · ${fechaRelativa(publicacion.fechaCreacion)}"
+        else "● Activa · ${fechaRelativa(publicacion.fechaCreacion)}"
         panelEstado.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (resuelta) android.R.color.darker_gray else R.color.verde_estado
-            )
+            ContextCompat.getColor(this, if (resuelta) android.R.color.darker_gray else R.color.verde_estado)
         )
-
-        // Botones según estado
         panel.findViewById<MaterialButton>(R.id.panel_ver).isEnabled = !resuelta
         panel.findViewById<MaterialButton>(R.id.panel_resolver).isEnabled = !resuelta
-
-        panel.visibility = View.VISIBLE
-        panel.alpha = 0f
+        panel.visibility = View.VISIBLE; panel.alpha = 0f
         panel.post {
             panel.translationY = panel.height.toFloat()
             panel.animate().translationY(0f).alpha(1f).setDuration(250).start()
         }
     }
 
-    /** Panel para un avistamiento reportado por la comunidad. */
     private fun mostrarPanelAvistamiento(avistamiento: Avistamiento, nombre: String) {
         alertaActual = null
-
-        panelEmoji.text = "👀"
-        panelTitulo.text = "Avistamiento de $nombre"
+        panelEmoji.text = "👀"; panelTitulo.text = "Avistamiento de $nombre"
         panelTipo.text = "Reportado por la comunidad"
-        panelDesc.text = avistamiento.descripcion.ifEmpty {
-            "Alguien reportó haber visto a esta mascota aquí."
-        }
-
+        panelDesc.text = avistamiento.descripcion.ifEmpty { "Alguien reportó haber visto a esta mascota aquí." }
         val punto = GeoPoint(avistamiento.latitud, avistamiento.longitud)
         val distKm = userLocation?.distanceToAsDouble(punto)?.div(1000.0)
-        panelUbicacion.text = if (distKm != null) "📍 A %.1f km de ti".format(distKm)
-        else "📍 Lima, Perú"
-
+        panelUbicacion.text = if (distKm != null) "📍 A %.1f km de ti".format(distKm) else "📍 Lima, Perú"
         panelEstado.text = "● Avistamiento · ${fechaRelativa(avistamiento.fecha)}"
         panelEstado.setTextColor(ContextCompat.getColor(this, R.color.ambar_estado))
-
-        // Solo informativo: deshabilitar acciones de la publicación
         panel.findViewById<MaterialButton>(R.id.panel_ver).isEnabled = false
         panel.findViewById<MaterialButton>(R.id.panel_resolver).isEnabled = false
-
-        panel.visibility = View.VISIBLE
-        panel.alpha = 0f
+        panel.visibility = View.VISIBLE; panel.alpha = 0f
         panel.post {
             panel.translationY = panel.height.toFloat()
             panel.animate().translationY(0f).alpha(1f).setDuration(250).start()
@@ -437,28 +420,21 @@ class MainActivity : AppCompatActivity() {
         panel.animate().translationY(panel.height.toFloat()).alpha(0f)
             .setDuration(200).withEndAction { panel.visibility = View.GONE }.start()
         alertaActual = null
-        circuloBusqueda?.let { map.overlays.remove(it) }
-        circuloBusqueda = null
+        circuloBusqueda?.let { map.overlays.remove(it) }; circuloBusqueda = null
         map.invalidate()
     }
 
     private fun reportarAvistamiento() {
         val publicacion = alertaActual ?: return
-        val punto = userLocation ?: obtenerUltimaUbicacion()?.let {
-            GeoPoint(it.latitude, it.longitude)
-        }
+        val punto = userLocation ?: obtenerUltimaUbicacion()?.let { GeoPoint(it.latitude, it.longitude) }
         if (punto == null) {
-            Toast.makeText(this, "No tenemos tu ubicación", Toast.LENGTH_SHORT).show()
-            return
+            Toast.makeText(this, "No tenemos tu ubicación", Toast.LENGTH_SHORT).show(); return
         }
         executor.execute {
-            DatabaseHelper(this).actualizarAvistamiento(
-                publicacion.id, punto.latitude, punto.longitude
-            )
+            DatabaseHelper(this).actualizarAvistamiento(publicacion.id, punto.latitude, punto.longitude)
             runOnUiThread {
                 Toast.makeText(this, "¡Gracias! Se actualizó el último avistamiento", Toast.LENGTH_SHORT).show()
-                ocultarPanel()
-                cargarAlertasDesdeBD()
+                ocultarPanel(); cargarAlertasDesdeBD()
             }
         }
     }
@@ -469,8 +445,7 @@ class MainActivity : AppCompatActivity() {
             DatabaseHelper(this).marcarResuelta(publicacion.id)
             runOnUiThread {
                 Toast.makeText(this, "¡Alerta resuelta!", Toast.LENGTH_SHORT).show()
-                ocultarPanel()
-                cargarAlertasDesdeBD()
+                ocultarPanel(); cargarAlertasDesdeBD()
             }
         }
     }
@@ -483,10 +458,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun enviarWhatsApp() {
         val publicacion = alertaActual ?: return
-        val texto = textoAlerta(publicacion)
         try {
             startActivity(
-                Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/?text=${Uri.encode(texto)}"))
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://wa.me/?text=${Uri.encode(textoAlerta(publicacion))}")
+                )
             )
         } catch (_: Exception) {
             Toast.makeText(this, "WhatsApp no instalado", Toast.LENGTH_SHORT).show()
@@ -498,20 +475,19 @@ class MainActivity : AppCompatActivity() {
         startActivity(
             Intent.createChooser(
                 Intent(Intent.ACTION_SEND).apply {
-                    type = "text/plain"
-                    putExtra(Intent.EXTRA_TEXT, textoAlerta(publicacion))
+                    type = "text/plain"; putExtra(
+                    Intent.EXTRA_TEXT,
+                    textoAlerta(publicacion)
+                )
                 },
                 "Compartir alerta"
             )
         )
     }
 
-    // ─── Ciclo de vida ─────────────────────────────────────────────
-
     override fun onResume() {
         super.onResume()
         map.onResume()
-        // Recargar alertas al volver de crear publicación
         cargarAlertasDesdeBD()
     }
 

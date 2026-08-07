@@ -158,6 +158,32 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="14sp" />
 
+            <!-- Especie (opcional) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Especie (opcional)"
+                android:textColor="#616161"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_especie"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_search_field"
+                android:hint="Ej. Perro, Gato..."
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:singleLine="true"
+                android:textColor="#1A1A1A"
+                android:textColorHint="#9E9E9E"
+                android:textSize="14sp" />
+
             <!-- Última vez visto -->
             <TextView
                 android:layout_width="wrap_content"

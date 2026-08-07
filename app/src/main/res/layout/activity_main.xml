@@ -14,6 +14,7 @@
 
     <!-- Pista para publicar -->
     <TextView
+        android:id="@+id/tv_pista_publicar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,6 +31,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Botón leyenda -->
+    <TextView
+        android:id="@+id/btn_leyenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_chip_map"
+        android:elevation="2dp"
+        android:paddingStart="12dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="5dp"
+        android:text="📖  Leyenda"
+        android:textColor="#1A1A1A"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_pista_publicar" />
+
     <!-- Botón recentrar ubicación -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_recenter"
@@ -42,80 +63,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_recenter" />
 
-    <!-- Leyenda de tipos de alerta -->
-    <LinearLayout
-        android:id="@+id/leyenda"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/bg_chip_map"
-        android:elevation="4dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="14dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="14dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <View
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:background="@drawable/bg_dot_rojo" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:text="Perdidas"
-            android:textColor="#616161"
-            android:textSize="11sp" />
-
-        <View
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginStart="14dp"
-            android:background="@drawable/bg_dot_verde" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:text="Encontradas"
-            android:textColor="#616161"
-            android:textSize="11sp" />
-
-        <View
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginStart="14dp"
-            android:background="@drawable/bg_dot_naranja" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:text="Adopciones"
-            android:textColor="#616161"
-            android:textSize="11sp" />
-
-        <View
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginStart="14dp"
-            android:background="@drawable/bg_dot_amarillo" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:text="Avistamientos"
-            android:textColor="#616161"
-            android:textSize="11sp" />
-    </LinearLayout>
-
+    <!-- Botones de zoom (entre perfil y menú) -->
     <!-- Panel inferior deslizante (detalle de alerta) -->
     <LinearLayout
         android:id="@+id/panel_alerta"

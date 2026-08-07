@@ -44,6 +44,7 @@ class CrearPublicacionActivity : AppCompatActivity() {
 
     private lateinit var etNombre: EditText
     private lateinit var etUltimoLugar: EditText
+    private lateinit var etEspecie: EditText
     private lateinit var etDescripcion: EditText
     private lateinit var tvError: TextView
     private lateinit var chipPerdida: View
@@ -78,6 +79,7 @@ class CrearPublicacionActivity : AppCompatActivity() {
 
         etNombre = findViewById(R.id.et_nombre)
         etUltimoLugar = findViewById(R.id.et_ultimo_lugar)
+        etEspecie = findViewById(R.id.et_especie)
         etDescripcion = findViewById(R.id.et_descripcion)
         tvError = findViewById(R.id.tv_error)
         chipPerdida = findViewById(R.id.chip_perdida)
@@ -111,10 +113,15 @@ class CrearPublicacionActivity : AppCompatActivity() {
         map.setTileSource(
             XYTileSource(
                 "OpenStreetMap", 0, 19, 256, ".png",
-                arrayOf("https://tile.openstreetmap.org/")
+                arrayOf(
+                    "https://tile.openstreetmap.org/",
+                    "https://a.tile.openstreetmap.org/",
+                    "https://b.tile.openstreetmap.org/",
+                    "https://c.tile.openstreetmap.org/"
+                )
             )
         )
-        map.setMultiTouchControls(true)
+        map.setMultiTouchControls(false)
         map.controller.setZoom(15.0)
 
         // Si vino de mantener presionado el mapa, usar ese punto
@@ -186,6 +193,7 @@ class CrearPublicacionActivity : AppCompatActivity() {
     private fun publicar() {
         val nombre = etNombre.text.toString().trim()
         val descripcion = etDescripcion.text.toString().trim()
+        val especie = etEspecie.text.toString().trim().ifEmpty { null }
         val ultimoLugar = etUltimoLugar.text.toString().trim().ifEmpty { null }
         val punto = puntoSeleccionado
 
@@ -203,7 +211,7 @@ class CrearPublicacionActivity : AppCompatActivity() {
             val usuarioId = SesionManager.obtenerUsuarioId(this)
             DatabaseHelper(this).insertarPublicacion(
                 usuarioId, tipoSeleccionado, nombre, descripcion,
-                fotoUri, ultimoLugar,
+                fotoUri, ultimoLugar, especie,
                 punto.latitude, punto.longitude
             )
             runOnUiThread {
