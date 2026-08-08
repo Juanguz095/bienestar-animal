@@ -163,21 +163,6 @@ class MainActivity : AppCompatActivity() {
         else requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        centrarEnPunto(intent)
-    }
-
-    private fun centrarEnPunto(intent: Intent) {
-        val lat = intent.getDoubleExtra("centrar_lat", Double.NaN)
-        val lng = intent.getDoubleExtra("centrar_lng", Double.NaN)
-        if (!lat.isNaN() && !lng.isNaN()) {
-            map.controller.setZoom(16.0)
-            map.controller.animateTo(GeoPoint(lat, lng))
-            map.invalidate()
-        }
-    }
-
     // ─── Alertas desde la base de datos ────────────────────────────
 
     private fun cargarAlertasDesdeBD() {
@@ -237,19 +222,22 @@ class MainActivity : AppCompatActivity() {
             m.setOnMarkerClickListener { marker, _ ->
                 val p = marker.relatedObject as? Publicacion
                 if (p != null) {
-                    map.controller.setZoom(15.0)
+                    map.controller.setZoom(17.0)
                     map.controller.animateTo(marker.position)
                     mostrarCirculoBusqueda(p)
                     mostrarPanel(p)
                 }
                 true
             }
+
             map.overlays.add(m)
             marcadoresAlertas.add(m)
         }
 
+        // Pines amarillos: avistamientos reportados por la comunidad
         avistamientos.forEach { avistamiento ->
             val punto = GeoPoint(avistamiento.latitud, avistamiento.longitud)
+
             val m = Marker(map)
             m.position = punto
             m.icon = ContextCompat.getDrawable(this, R.drawable.ic_pin_amarillo)
@@ -258,7 +246,7 @@ class MainActivity : AppCompatActivity() {
             m.setOnMarkerClickListener { marker, _ ->
                 val a = marker.relatedObject as? Avistamiento
                 if (a != null) {
-                    map.controller.setZoom(15.0)
+                    map.controller.setZoom(17.0)
                     map.controller.animateTo(marker.position)
                     mostrarPanelAvistamiento(a, nombres[a.publicacionId] ?: "la mascota")
                 }
@@ -322,9 +310,24 @@ class MainActivity : AppCompatActivity() {
         userLocation = punto
         agregarMarcadorUsuario(punto)
         agregarCirculoCerca(punto)
-        map.controller.setZoom(16.0)
+        map.controller.setZoom(19.5)
         map.controller.setCenter(punto)
         map.invalidate()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        centrarEnPunto(intent)
+    }
+
+    private fun centrarEnPunto(intent: Intent) {
+        val lat = intent.getDoubleExtra("centrar_lat", Double.NaN)
+        val lng = intent.getDoubleExtra("centrar_lng", Double.NaN)
+        if (!lat.isNaN() && !lng.isNaN()) {
+            map.controller.setZoom(19.5)
+            map.controller.animateTo(GeoPoint(lat, lng))
+            map.invalidate()
+        }
     }
 
     private fun centrarEnLima() {

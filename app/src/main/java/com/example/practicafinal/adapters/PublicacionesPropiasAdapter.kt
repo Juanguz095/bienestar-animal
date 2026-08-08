@@ -8,40 +8,36 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.R
-import com.example.practicafinal.model.Avistamiento
 import com.example.practicafinal.model.Publicacion
 import com.example.practicafinal.util.decodificarImagen
 import com.example.practicafinal.util.fechaRelativa
 
-class PerdidasAdapter(
+class PublicacionesPropiasAdapter(
     private val items: List<Publicacion>,
-    private val avistPorPublicacion: Map<Long, List<Avistamiento>>,
-    private val onSighting: (Publicacion) -> Unit,
-    private val onVerAvistamientos: (Publicacion) -> Unit
-) : RecyclerView.Adapter<PerdidasAdapter.PerdidaViewHolder>() {
+    private val onResolver: (Publicacion) -> Unit
+) : RecyclerView.Adapter<PublicacionesPropiasAdapter.PubViewHolder>() {
 
-    class PerdidaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class PubViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgFoto: ImageView = view.findViewById(R.id.img_foto)
         val tvPlaceholder: TextView = view.findViewById(R.id.tv_placeholder)
         val tvNombre: TextView = view.findViewById(R.id.tv_nombre)
-        val tvUltimoLugar: TextView = view.findViewById(R.id.tv_ultimo_lugar)
+        val tvTipo: TextView = view.findViewById(R.id.tv_tipo)
         val tvFecha: TextView = view.findViewById(R.id.tv_fecha)
         val tvEstado: TextView = view.findViewById(R.id.tv_estado)
-        val btnVi: com.google.android.material.button.MaterialButton =
-            view.findViewById(R.id.btn_vi)
-        val tvAvist: TextView = view.findViewById(R.id.tv_avist)
+        val btnResolver: com.google.android.material.button.MaterialButton =
+            view.findViewById(R.id.btn_resolver)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PerdidaViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_perdida_card, parent, false)
-        return PerdidaViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PubViewHolder {
+        return PubViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_mi_publicacion, parent, false)
+        )
     }
 
-    override fun onBindViewHolder(holder: PerdidaViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PubViewHolder, position: Int) {
         val p = items[position]
 
-        // Foto o placeholder
         val foto = p.foto?.let { decodificarImagen(holder.itemView.context, it, 8) }
         if (foto != null) {
             holder.imgFoto.setImageBitmap(foto)
@@ -56,31 +52,23 @@ class PerdidasAdapter(
         }
 
         holder.tvNombre.text = p.nombre
-        holder.tvUltimoLugar.text = p.ultimoLugar?.let { "📍 Última vez: $it" }
-            ?: "📍 Sin ubicación de referencia"
+        holder.tvTipo.text = when (p.tipo) {
+            "Perdida" -> "Mascota perdida"
+            "Encontrada" -> "Mascota encontrada"
+            else -> "En adopción"
+        }
         holder.tvFecha.text = fechaRelativa(p.fechaCreacion)
 
         val resuelta = p.estado == "Resuelta"
-        holder.tvEstado.text = if (resuelta) "● Resuelta" else "● Activa"
+        holder.tvEstado.text = if (resuelta) "Resuelta" else "Activa"
         holder.tvEstado.setTextColor(
             ContextCompat.getColor(
                 holder.itemView.context,
                 if (resuelta) android.R.color.darker_gray else R.color.verde_estado
             )
         )
-        holder.btnVi.isEnabled = !resuelta
-        holder.btnVi.setOnClickListener { onSighting(p) }
-
-        // Contador de avistamientos
-        val avistCount = avistPorPublicacion[p.id]?.size ?: 0
-        if (avistCount > 0) {
-            holder.tvAvist.visibility = View.VISIBLE
-            holder.tvAvist.text = "👀 $avistCount avistamiento${if (avistCount > 1) "s" else ""}"
-            holder.tvAvist.setOnClickListener { onVerAvistamientos(p) }
-        } else {
-            holder.tvAvist.visibility = View.GONE
-            holder.tvAvist.setOnClickListener(null)
-        }
+        holder.btnResolver.visibility = if (resuelta) View.GONE else View.VISIBLE
+        holder.btnResolver.setOnClickListener { onResolver(p) }
     }
 
     override fun getItemCount(): Int = items.size

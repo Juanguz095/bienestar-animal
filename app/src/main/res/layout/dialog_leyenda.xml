@@ -8,29 +8,27 @@
     android:paddingEnd="24dp"
     android:paddingBottom="8dp">
 
-    <!-- Perdidas -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@drawable/bg_dot_rojo" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_pin_rojo" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:text="Perdidas — se busca a la mascota"
+            android:text="🐾  Perdidas — se busca a la mascota"
             android:textColor="#1A1A1A"
             android:textSize="13sp" />
     </LinearLayout>
 
-    <!-- Encontradas -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,22 +36,21 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@drawable/bg_dot_verde" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_pin_verde" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:text="Encontradas — busca a su dueño"
+            android:text="🐶  Encontradas — busca a su dueño"
             android:textColor="#1A1A1A"
             android:textSize="13sp" />
     </LinearLayout>
 
-    <!-- Adopciones -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,22 +58,21 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@drawable/bg_dot_naranja" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_pin_naranja" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:text="Adopciones — busca un hogar"
+            android:text="🐱  Adopciones — busca un hogar"
             android:textColor="#1A1A1A"
             android:textSize="13sp" />
     </LinearLayout>
 
-    <!-- Avistamientos -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,22 +80,21 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@drawable/bg_dot_amarillo" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_pin_amarillo" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:text="Avistamientos — alguien la vio aquí"
+            android:text="👀  Avistamientos — alguien la vio aquí"
             android:textColor="#1A1A1A"
             android:textSize="13sp" />
     </LinearLayout>
 
-    <!-- Resueltas -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -107,17 +102,17 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <View
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:background="@drawable/bg_dot_gris" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_pin_gris" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:text="Resueltas — caso cerrado"
+            android:text="✓  Resueltas — caso cerrado"
             android:textColor="#1A1A1A"
             android:textSize="13sp" />
     </LinearLayout>

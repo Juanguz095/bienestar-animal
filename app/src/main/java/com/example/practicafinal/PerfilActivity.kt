@@ -51,9 +51,13 @@ class PerfilActivity : AppCompatActivity() {
             finish()
         }
 
+        // Mis publicaciones
+        findViewById<View>(R.id.row_publicaciones).setOnClickListener {
+            startActivity(Intent(this, MisPublicacionesActivity::class.java))
+        }
+
         // Opciones aún sin pantalla propia
         val pendientes = listOf(
-            R.id.row_publicaciones,
             R.id.row_denuncias,
             R.id.row_favoritos,
             R.id.row_configuracion
