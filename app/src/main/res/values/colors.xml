@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="verde_estado">#43A047</color>
     <color name="ambar_estado">#F57F17</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>
