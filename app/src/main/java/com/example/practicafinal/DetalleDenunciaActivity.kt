@@ -28,15 +28,20 @@ class DetalleDenunciaActivity : AppCompatActivity() {
                 if (d == null) {
                     finish(); return@runOnUiThread
                 }
+                val icono = when (d.motivo) {
+                    "Maltrato" -> "🚨"; "Abandono" -> "🏚️"; else -> "💰"
+                }
                 val foto = d.foto?.let { decodificarImagen(this, it, 2) }
                 val img = findViewById<android.widget.ImageView>(R.id.img_foto)
                 val pl = findViewById<TextView>(R.id.tv_placeholder)
                 if (foto != null) {
                     img.setImageBitmap(foto); pl.visibility = View.GONE
-                } else pl.visibility = View.VISIBLE
-                findViewById<TextView>(R.id.tv_motivo).text = d.motivo
+                } else {
+                    pl.visibility = View.VISIBLE; pl.text = icono
+                }
+                findViewById<TextView>(R.id.tv_motivo).text = "$icono ${d.motivo}"
                 findViewById<TextView>(R.id.tv_descripcion).text = d.descripcion
-                findViewById<TextView>(R.id.tv_fecha).text = fechaRelativa(d.fecha)
+                findViewById<TextView>(R.id.tv_fecha).text = "Reportado ${fechaRelativa(d.fecha)}"
                 findViewById<TextView>(R.id.tv_ubicacion).setOnClickListener {
                     startActivity(
                         Intent(

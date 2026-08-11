@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.db.DatabaseHelper
 import com.example.practicafinal.model.Denuncia
+import com.example.practicafinal.util.decodificarImagen
 import com.example.practicafinal.util.fechaRelativa
 import java.util.concurrent.Executors
 
@@ -32,6 +33,10 @@ class DenunciasActivity : AppCompatActivity() {
         cargar()
     }
 
+    private fun iconoMotivo(m: String) = when (m) {
+        "Maltrato" -> "🚨"; "Abandono" -> "🏚️"; else -> "💰"
+    }
+
     private fun cargar() {
         exec.execute {
             val lista = DatabaseHelper(this).obtenerDenuncias()
@@ -44,7 +49,17 @@ class DenunciasActivity : AppCompatActivity() {
 
                     override fun onBindViewHolder(h: RecyclerView.ViewHolder, pos: Int) {
                         val d = lista[pos]
-                        (h.itemView.findViewById<TextView>(R.id.tv_motivo)).text = d.motivo
+                        val foto = d.foto?.let { decodificarImagen(h.itemView.context, it, 8) }
+                        val img = h.itemView.findViewById<android.widget.ImageView>(R.id.img_foto)
+                        val pl = h.itemView.findViewById<TextView>(R.id.tv_placeholder)
+                        if (foto != null) {
+                            img.setImageBitmap(foto); pl.visibility = View.GONE
+                            pl.text = iconoMotivo(d.motivo)
+                        } else {
+                            pl.visibility = View.VISIBLE; pl.text = iconoMotivo(d.motivo)
+                        }
+                        (h.itemView.findViewById<TextView>(R.id.tv_motivo)).text =
+                            "${iconoMotivo(d.motivo)} ${d.motivo}"
                         (h.itemView.findViewById<TextView>(R.id.tv_desc)).text = d.descripcion.take(80)
                         (h.itemView.findViewById<TextView>(R.id.tv_fecha)).text = fechaRelativa(d.fecha)
                         h.itemView.setOnClickListener {
