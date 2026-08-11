@@ -69,6 +69,15 @@
         <activity
             android:name=".MisFavoritosActivity"
             android:exported="false" />
+        <activity
+            android:name=".DenunciasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CrearDenunciaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetalleDenunciaActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

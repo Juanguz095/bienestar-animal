@@ -6,18 +6,20 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.practicafinal.model.Albergue
 import com.example.practicafinal.model.Avistamiento
+import com.example.practicafinal.model.Denuncia
 import com.example.practicafinal.model.Publicacion
 import com.example.practicafinal.model.Usuario
 import java.security.MessageDigest
 import java.security.SecureRandom
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_animal.db", null, 5) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_animal.db", null, 6) {
 
     companion object {
         private const val TABLA_USUARIOS = "usuarios"
         private const val TABLA_PUBLICACIONES = "publicaciones"
         private const val TABLA_AVISTAMIENTOS = "avistamientos"
         private const val TABLA_ALBERGUES = "albergues"
+        private const val TABLA_DENUNCIAS = "denuncias"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -67,6 +69,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
                     "latitud REAL NOT NULL, " +
                     "longitud REAL NOT NULL)"
         )
+        db.execSQL(
+            "CREATE TABLE $TABLA_DENUNCIAS (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "motivo TEXT NOT NULL, " +
+                    "descripcion TEXT NOT NULL, " +
+                    "foto TEXT, " +
+                    "latitud REAL NOT NULL, " +
+                    "longitud REAL NOT NULL, " +
+                    "fecha INTEGER NOT NULL)"
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -74,6 +86,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         db.execSQL("DROP TABLE IF EXISTS $TABLA_PUBLICACIONES")
         db.execSQL("DROP TABLE IF EXISTS $TABLA_AVISTAMIENTOS")
         db.execSQL("DROP TABLE IF EXISTS $TABLA_ALBERGUES")
+        db.execSQL("DROP TABLE IF EXISTS $TABLA_DENUNCIAS")
         onCreate(db)
     }
 
@@ -349,6 +362,41 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
                     foto = if (cursor.isNull(idxFoto)) null else cursor.getString(idxFoto),
                     latitud = cursor.getDouble(cursor.getColumnIndexOrThrow("latitud")),
                     longitud = cursor.getDouble(cursor.getColumnIndexOrThrow("longitud"))
+                )
+            )
+        }
+        cursor.close()
+        return lista
+    }
+
+    // ─── Denuncias ─────────────────────────────────────────────────
+
+    fun insertarDenuncia(
+        motivo: String, descripcion: String, foto: String?,
+        latitud: Double, longitud: Double
+    ): Long {
+        val values = ContentValues().apply {
+            put("motivo", motivo); put("descripcion", descripcion)
+            put("foto", foto); put("latitud", latitud); put("longitud", longitud)
+            put("fecha", System.currentTimeMillis())
+        }
+        return writableDatabase.insert(TABLA_DENUNCIAS, null, values)
+    }
+
+    fun obtenerDenuncias(): List<Denuncia> {
+        val lista = mutableListOf<Denuncia>()
+        val cursor = readableDatabase.query(TABLA_DENUNCIAS, null, null, null, null, null, "fecha DESC")
+        while (cursor.moveToNext()) {
+            val idxFoto = cursor.getColumnIndexOrThrow("foto")
+            lista.add(
+                Denuncia(
+                    id = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
+                    motivo = cursor.getString(cursor.getColumnIndexOrThrow("motivo")),
+                    descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+                    foto = if (cursor.isNull(idxFoto)) null else cursor.getString(idxFoto),
+                    latitud = cursor.getDouble(cursor.getColumnIndexOrThrow("latitud")),
+                    longitud = cursor.getDouble(cursor.getColumnIndexOrThrow("longitud")),
+                    fecha = cursor.getLong(cursor.getColumnIndexOrThrow("fecha"))
                 )
             )
         }

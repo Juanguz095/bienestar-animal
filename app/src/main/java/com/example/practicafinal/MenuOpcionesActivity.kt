@@ -33,10 +33,12 @@ class MenuOpcionesActivity : AppCompatActivity() {
             startActivity(Intent(this, AlberguesActivity::class.java))
         }
 
+        findViewById<View>(R.id.item_denuncias).setOnClickListener {
+            startActivity(Intent(this, DenunciasActivity::class.java))
+        }
+
         // Las demás opciones aún no tienen pantalla
-        val pendientes = listOf(
-            R.id.item_denuncias
-        )
+        val pendientes = emptyList<Int>()
         pendientes.forEach { id ->
             findViewById<View>(id).setOnClickListener {
                 Toast.makeText(this, "Próximamente", Toast.LENGTH_SHORT).show()

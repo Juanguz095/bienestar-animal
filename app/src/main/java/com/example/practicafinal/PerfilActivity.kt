@@ -36,13 +36,14 @@ class PerfilActivity : AppCompatActivity() {
             val usuario = usuarioId?.let { DatabaseHelper(this).obtenerPorId(it) }
             val pubCount = if (usuarioId != null)
                 DatabaseHelper(this).obtenerPublicaciones().count { it.usuarioId == usuarioId } else 0
+            val denCount = DatabaseHelper(this).obtenerDenuncias().size
             val favCount = FavoritosManager.contar(this)
             runOnUiThread {
                 usuario?.let {
                     tvNombre.text = it.nombre; tvCorreo.text = it.correo; tvTipo.text = it.tipo
                 }
                 tvPublicaciones.text = pubCount.toString()
-                tvDenuncias.text = "0"
+                tvDenuncias.text = denCount.toString()
                 tvFavoritos.text = favCount.toString()
             }
         }
@@ -61,13 +62,18 @@ class PerfilActivity : AppCompatActivity() {
             startActivity(Intent(this, MisPublicacionesActivity::class.java))
         }
 
+        // Denuncias
+        findViewById<View>(R.id.row_denuncias).setOnClickListener {
+            startActivity(Intent(this, DenunciasActivity::class.java))
+        }
+
         // Mis favoritos
         findViewById<View>(R.id.row_favoritos).setOnClickListener {
             startActivity(Intent(this, MisFavoritosActivity::class.java))
         }
 
         // Pendientes
-        val pendientes = listOf(R.id.row_denuncias, R.id.row_configuracion)
+        val pendientes = listOf(R.id.row_configuracion)
         pendientes.forEach { id ->
             findViewById<View>(id).setOnClickListener {
                 Toast.makeText(this, "Próximamente", Toast.LENGTH_SHORT).show()
@@ -82,9 +88,11 @@ class PerfilActivity : AppCompatActivity() {
             val usuarioId = SesionManager.obtenerUsuarioId(this)
             val pubCount = if (usuarioId != null)
                 DatabaseHelper(this).obtenerPublicaciones().count { it.usuarioId == usuarioId } else 0
+            val denCount = DatabaseHelper(this).obtenerDenuncias().size
             val favCount = FavoritosManager.contar(this)
             runOnUiThread {
                 findViewById<TextView>(R.id.tv_publicaciones).text = pubCount.toString()
+                findViewById<TextView>(R.id.tv_denuncias).text = denCount.toString()
                 findViewById<TextView>(R.id.tv_favoritos).text = favCount.toString()
             }
         }
