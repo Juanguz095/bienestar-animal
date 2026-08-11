@@ -15,7 +15,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.PublicacionController
 import com.example.practicafinal.session.SesionManager
 import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.config.Configuration
@@ -197,20 +197,19 @@ class CrearPublicacionActivity : AppCompatActivity() {
         val ultimoLugar = etUltimoLugar.text.toString().trim().ifEmpty { null }
         val punto = puntoSeleccionado
 
-        if (nombre.isEmpty() || descripcion.isEmpty()) {
-            mostrarError("Completa el nombre y la descripción")
-            return
+        val error = PublicacionController.validarPublicacion(nombre, descripcion)
+        if (error != null) {
+            mostrarError(error); return
         }
         if (punto == null) {
-            mostrarError("Elige una ubicación en el mapa")
-            return
+            mostrarError("Elige una ubicación en el mapa"); return
         }
 
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_publicar).isEnabled = false
         executor.execute {
             val usuarioId = SesionManager.obtenerUsuarioId(this)
-            DatabaseHelper(this).insertarPublicacion(
-                usuarioId, tipoSeleccionado, nombre, descripcion,
+            PublicacionController.publicar(
+                this, usuarioId, tipoSeleccionado, nombre, descripcion,
                 fotoUri, ultimoLugar, especie,
                 punto.latitude, punto.longitude
             )

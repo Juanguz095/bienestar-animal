@@ -29,9 +29,12 @@ class MenuOpcionesActivity : AppCompatActivity() {
             startActivity(Intent(this, MascotasPerdidasActivity::class.java))
         }
 
+        findViewById<View>(R.id.item_albergues).setOnClickListener {
+            startActivity(Intent(this, AlberguesActivity::class.java))
+        }
+
         // Las demás opciones aún no tienen pantalla
         val pendientes = listOf(
-            R.id.item_albergues,
             R.id.item_denuncias
         )
         pendientes.forEach { id ->

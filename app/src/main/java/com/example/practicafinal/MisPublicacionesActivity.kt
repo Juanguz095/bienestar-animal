@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.practicafinal.adapters.PublicacionesPropiasAdapter
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.PublicacionController
 import com.example.practicafinal.session.SesionManager
 import java.util.concurrent.Executors
 
@@ -34,7 +34,7 @@ class MisPublicacionesActivity : AppCompatActivity() {
     private fun cargarPublicaciones() {
         val usuarioId = SesionManager.obtenerUsuarioId(this) ?: return
         executor.execute {
-            val todas = DatabaseHelper(this).obtenerPublicaciones()
+            val todas = PublicacionController.obtenerPublicaciones(this)
             val propias = todas.filter { it.usuarioId == usuarioId }
             runOnUiThread {
                 tvVacio.visibility = if (propias.isEmpty()) View.VISIBLE else View.GONE
@@ -47,7 +47,7 @@ class MisPublicacionesActivity : AppCompatActivity() {
 
     private fun resolverPublicacion(publicacion: com.example.practicafinal.model.Publicacion) {
         executor.execute {
-            DatabaseHelper(this).marcarResuelta(publicacion.id)
+            PublicacionController.resolver(this, publicacion.id)
             runOnUiThread {
                 Toast.makeText(this, "Publicación resuelta", Toast.LENGTH_SHORT).show()
                 cargarPublicaciones()

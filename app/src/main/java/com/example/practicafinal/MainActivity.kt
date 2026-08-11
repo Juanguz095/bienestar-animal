@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.model.Albergue
 import com.example.practicafinal.model.Avistamiento;
 import com.example.practicafinal.model.Publicacion
 import com.example.practicafinal.session.SesionManager;
@@ -273,14 +274,41 @@ class MainActivity : AppCompatActivity() {
                 -12.0200,
                 -77.0800
             )
+        }; if (db.obtenerAlbergues().isEmpty()) {
+            db.insertarAlbergue(
+                "Albergue Patitas",
+                "Refugio de mascotas",
+                "Av. Universitaria 123",
+                "999888777",
+                null,
+                -12.0850,
+                -77.0050
+            ); db.insertarAlbergue(
+                "Refugio Huellitas",
+                "Hogar temporal",
+                "Jr. Las Flores 456",
+                "987654321",
+                null,
+                -12.0200,
+                -77.0800
+            ); db.insertarAlbergue(
+                "Hogar Peludo",
+                "Adopción responsable",
+                "Calle Los Olivos 789",
+                "912345678",
+                null,
+                -12.0760,
+                -77.0620
+            )
         };
             val l = db.obtenerPublicaciones();
             val a = db.obtenerAvistamientos();
-            val n = l.associate { it.id to it.nombre }; runOnUiThread { render(l, a, n) }
+            val alb = db.obtenerAlbergues();
+            val n = l.associate { it.id to it.nombre }; runOnUiThread { render(l, a, alb, n) }
         }
     }
 
-    private fun render(l: List<Publicacion>, a: List<Avistamiento>, n: Map<Long, String>) {
+    private fun render(l: List<Publicacion>, a: List<Avistamiento>, alb: List<Albergue>, n: Map<Long, String>) {
         marcPub.forEach { map.overlays.remove(it) }; marcPub.clear(); marcAvist.forEach { map.overlays.remove(it) }; marcAvist.clear()
         for (pub in l) {
             val m = Marker(map); m.position = GeoPoint(pub.latitud, pub.longitud); m.icon =
@@ -309,7 +337,30 @@ class MainActivity : AppCompatActivity() {
                 }; true
             }; map.overlays.add(m); marcAvist.add(m)
         }
+        for (al in alb) {
+            val m = Marker(map); m.position = GeoPoint(al.latitud, al.longitud); m.icon =
+                ContextCompat.getDrawable(this, R.drawable.ic_pin_albergue); m.setAnchor(
+                Marker.ANCHOR_CENTER,
+                Marker.ANCHOR_BOTTOM
+            ); m.relatedObject = al; m.setOnMarkerClickListener { mk, _ ->
+                (mk.relatedObject as? Albergue)?.let {
+                    centrarArriba(mk.position); mostrarAlbergue(
+                    it
+                )
+                }; true
+            }; map.overlays.add(m)
+        }
         map.invalidate(); actualizarBtnCercanas(l)
+    }
+
+    private fun mostrarAlbergue(al: Albergue) {
+        pnlEmoji.text = "🏠"; pnlTit.text = al.nombre; pnlTipo.text = "Albergue"; pnlDesc.text =
+            al.descripcion; pnlUbi.text = al.direccion; pnlEst.text =
+            ""; pnl.findViewById<MaterialButton>(R.id.panel_ver).isEnabled =
+            false; pnl.findViewById<MaterialButton>(R.id.panel_resolver).isEnabled = false
+        pnl.visibility = View.VISIBLE; pnl.alpha = 0f; pnl.post {
+            pnl.translationY = pnl.height.toFloat(); pnl.animate().translationY(0f).alpha(1f).setDuration(250).start()
+        }
     }
 
     private fun actualizarBtnCercanas(l: List<Publicacion>) {

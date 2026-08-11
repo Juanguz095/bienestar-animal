@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.UsuarioController
 import com.example.practicafinal.session.SesionManager
 import java.util.concurrent.Executors
 
@@ -43,31 +43,23 @@ class RegistroActivity : AppCompatActivity() {
         val contrasena = etContrasena.text.toString()
         val confirmar = etConfirmar.text.toString()
 
-        when {
-            nombre.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || confirmar.isEmpty() ->
-                mostrarError("Completa todos los campos")
+        val error = UsuarioController.validarRegistro(nombre, correo, contrasena, confirmar)
+        if (error != null) {
+            mostrarError(error); return
+        }
 
-            contrasena.length < 6 ->
-                mostrarError("La contraseña debe tener al menos 6 caracteres")
-
-            contrasena != confirmar ->
-                mostrarError("Las contraseñas no coinciden")
-
-            else -> {
-                findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_registrar).isEnabled = false
-                executor.execute {
-                    val id = DatabaseHelper(this).registrar(nombre, correo, contrasena)
-                    runOnUiThread {
-                        findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_registrar).isEnabled =
-                            true
-                        if (id != null) {
-                            SesionManager.guardarSesion(this, id)
-                            Toast.makeText(this, "¡Cuenta creada!", Toast.LENGTH_SHORT).show()
-                            irAlMapa()
-                        } else {
-                            mostrarError("Ese correo ya está registrado")
-                        }
-                    }
+        findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_registrar).isEnabled = false
+        executor.execute {
+            val id = UsuarioController.registrar(this, nombre, correo, contrasena)
+            runOnUiThread {
+                findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_registrar).isEnabled =
+                    true
+                if (id != null) {
+                    SesionManager.guardarSesion(this, id)
+                    Toast.makeText(this, "¡Cuenta creada!", Toast.LENGTH_SHORT).show()
+                    irAlMapa()
+                } else {
+                    mostrarError("Ese correo ya está registrado")
                 }
             }
         }

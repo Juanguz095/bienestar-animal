@@ -14,7 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.PublicacionController
 import com.example.practicafinal.session.SesionManager
 import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.config.Configuration
@@ -153,8 +153,8 @@ class ReportarAvistamientoActivity : AppCompatActivity() {
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_reportar).isEnabled = false
         executor.execute {
             val usuarioId = SesionManager.obtenerUsuarioId(this)
-            DatabaseHelper(this).insertarAvistamiento(
-                publicacionId, usuarioId, punto.latitude, punto.longitude, descripcion, fotoAvistUri
+            PublicacionController.reportarAvistamiento(
+                this, publicacionId, usuarioId, punto.latitude, punto.longitude, descripcion, fotoAvistUri
             )
             runOnUiThread {
                 Toast.makeText(this, "¡Avistamiento reportado! Gracias 🙌", Toast.LENGTH_SHORT).show()

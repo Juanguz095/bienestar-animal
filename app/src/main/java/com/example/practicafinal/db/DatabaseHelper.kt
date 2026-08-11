@@ -4,18 +4,20 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.practicafinal.model.Albergue
 import com.example.practicafinal.model.Avistamiento
 import com.example.practicafinal.model.Publicacion
 import com.example.practicafinal.model.Usuario
 import java.security.MessageDigest
 import java.security.SecureRandom
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_animal.db", null, 4) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_animal.db", null, 5) {
 
     companion object {
         private const val TABLA_USUARIOS = "usuarios"
         private const val TABLA_PUBLICACIONES = "publicaciones"
         private const val TABLA_AVISTAMIENTOS = "avistamientos"
+        private const val TABLA_ALBERGUES = "albergues"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -54,12 +56,24 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
                     "foto TEXT, " +
                     "fecha INTEGER NOT NULL)"
         )
+        db.execSQL(
+            "CREATE TABLE $TABLA_ALBERGUES (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "nombre TEXT NOT NULL, " +
+                    "descripcion TEXT NOT NULL DEFAULT '', " +
+                    "direccion TEXT NOT NULL DEFAULT '', " +
+                    "telefono TEXT NOT NULL DEFAULT '', " +
+                    "foto TEXT, " +
+                    "latitud REAL NOT NULL, " +
+                    "longitud REAL NOT NULL)"
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLA_USUARIOS")
         db.execSQL("DROP TABLE IF EXISTS $TABLA_PUBLICACIONES")
         db.execSQL("DROP TABLE IF EXISTS $TABLA_AVISTAMIENTOS")
+        db.execSQL("DROP TABLE IF EXISTS $TABLA_ALBERGUES")
         onCreate(db)
     }
 
@@ -306,6 +320,40 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
             put("fecha_creacion", System.currentTimeMillis())
         }
         writableDatabase.update(TABLA_PUBLICACIONES, values, "id = ?", arrayOf(id.toString()))
+    }
+
+    fun insertarAlbergue(
+        nombre: String, descripcion: String, direccion: String,
+        telefono: String, foto: String?, latitud: Double, longitud: Double
+    ): Long {
+        val values = ContentValues().apply {
+            put("nombre", nombre); put("descripcion", descripcion)
+            put("direccion", direccion); put("telefono", telefono)
+            put("foto", foto); put("latitud", latitud); put("longitud", longitud)
+        }
+        return writableDatabase.insert(TABLA_ALBERGUES, null, values)
+    }
+
+    fun obtenerAlbergues(): List<Albergue> {
+        val lista = mutableListOf<Albergue>()
+        val cursor = readableDatabase.query(TABLA_ALBERGUES, null, null, null, null, null, null)
+        while (cursor.moveToNext()) {
+            val idxFoto = cursor.getColumnIndexOrThrow("foto")
+            lista.add(
+                Albergue(
+                    id = cursor.getLong(cursor.getColumnIndexOrThrow("id")),
+                    nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                    descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+                    direccion = cursor.getString(cursor.getColumnIndexOrThrow("direccion")),
+                    telefono = cursor.getString(cursor.getColumnIndexOrThrow("telefono")),
+                    foto = if (cursor.isNull(idxFoto)) null else cursor.getString(idxFoto),
+                    latitud = cursor.getDouble(cursor.getColumnIndexOrThrow("latitud")),
+                    longitud = cursor.getDouble(cursor.getColumnIndexOrThrow("longitud"))
+                )
+            )
+        }
+        cursor.close()
+        return lista
     }
 
     private fun generarSal(): String {

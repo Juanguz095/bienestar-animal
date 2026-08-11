@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.UsuarioController
 import com.example.practicafinal.session.SesionManager
 import java.util.concurrent.Executors
 
@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_login).isEnabled = false
         executor.execute {
-            val usuario = DatabaseHelper(this).validarLogin(correo, contrasena)
+            val usuario = UsuarioController.iniciarSesion(this, correo, contrasena)
             runOnUiThread {
                 findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_login).isEnabled = true
                 if (usuario != null) {

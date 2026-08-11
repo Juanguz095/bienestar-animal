@@ -60,6 +60,15 @@
         <activity
             android:name=".MisPublicacionesActivity"
             android:exported="false" />
+        <activity
+            android:name=".AlberguesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetalleAlbergueActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MisFavoritosActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
