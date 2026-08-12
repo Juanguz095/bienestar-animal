@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var circBusq: Polygon? = null
     private val marcPub = mutableListOf<Marker>();
     private val marcAvist = mutableListOf<Marker>()
+    private val marcAlb = mutableListOf<Marker>()
     private lateinit var pnl: View;
     private lateinit var pnlEmoji: TextView;
     private lateinit var pnlTit: TextView
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pnlEst: TextView;
     private var pubActual: Publicacion? = null
     private lateinit var btnCercanas: TextView
+    private var pendienteMostrarAlerta: Long? = null
 
     private val permiso = registerForActivityResult(ActivityResultContracts.RequestPermission()) { g ->
         if (g) centrarUsuario() else {
@@ -126,16 +128,22 @@ class MainActivity : AppCompatActivity() {
         cargarBD()
         val clat = intent.getDoubleExtra("centrar_lat", Double.NaN);
         val clng = intent.getDoubleExtra("centrar_lng", Double.NaN)
-        if (!clat.isNaN() && !clng.isNaN()) centrarArriba(GeoPoint(clat, clng))
+        if (!clat.isNaN() && !clng.isNaN()) {
+            map.controller.setZoom(19.5); centrarArriba(GeoPoint(clat, clng))
+        }
+        val alertaId = intent.getLongExtra("mostrar_alerta", -1L)
+        if (alertaId != -1L) pendienteMostrarAlerta = alertaId
         if (tienePermiso()) centrarUsuario() else permiso.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent);
         val lat = intent.getDoubleExtra("centrar_lat", Double.NaN);
-        val lng = intent.getDoubleExtra("centrar_lng", Double.NaN); if (!lat.isNaN() && !lng.isNaN()) centrarArriba(
-            GeoPoint(lat, lng)
-        )
+        val lng = intent.getDoubleExtra("centrar_lng", Double.NaN); if (!lat.isNaN() && !lng.isNaN()) {
+            map.controller.setZoom(19.5); centrarArriba(GeoPoint(lat, lng))
+        }
+        val alertaId = intent.getLongExtra("mostrar_alerta", -1L)
+        if (alertaId != -1L) pendienteMostrarAlerta = alertaId
     }
 
     private fun centrarArriba(p: GeoPoint) {
@@ -256,23 +264,23 @@ class MainActivity : AppCompatActivity() {
             ); db.insertarPublicacion(
                 null,
                 "Adopcion",
-                "Pelusa",
-                "Gatita en busca de un hogar",
-                null,
-                null,
-                "Gato",
-                -12.0850,
-                -77.0050
-            ); db.insertarPublicacion(
-                null,
-                "Adopcion",
-                "Rocky",
-                "Perrito cariñoso en adopción",
+                "Bella",
+                "Perrita cariñosa en busca de hogar",
                 null,
                 null,
                 "Perro",
-                -12.0200,
-                -77.0800
+                -12.0580,
+                -77.0360
+            ); db.insertarPublicacion(
+                null,
+                "Adopcion",
+                "Simba",
+                "Gatito juguetón esperando adopción",
+                null,
+                null,
+                "Gato",
+                -12.0700,
+                -77.0480
             )
         }; if (db.obtenerAlbergues().isEmpty()) {
             db.insertarAlbergue(
@@ -309,7 +317,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun render(l: List<Publicacion>, a: List<Avistamiento>, alb: List<Albergue>, n: Map<Long, String>) {
-        marcPub.forEach { map.overlays.remove(it) }; marcPub.clear(); marcAvist.forEach { map.overlays.remove(it) }; marcAvist.clear()
+        marcPub.forEach { map.overlays.remove(it) }; marcPub.clear(); marcAvist.forEach { map.overlays.remove(it) }; marcAvist.clear(); marcAlb.forEach {
+            map.overlays.remove(
+                it
+            )
+        }; marcAlb.clear()
         for (pub in l) {
             val m = Marker(map); m.position = GeoPoint(pub.latitud, pub.longitud); m.icon =
                 ContextCompat.getDrawable(this, ico(pub)); m.setAnchor(
@@ -344,13 +356,15 @@ class MainActivity : AppCompatActivity() {
                 Marker.ANCHOR_BOTTOM
             ); m.relatedObject = al; m.setOnMarkerClickListener { mk, _ ->
                 (mk.relatedObject as? Albergue)?.let {
-                    centrarArriba(mk.position); mostrarAlbergue(
-                    it
-                )
+                    centrarArriba(mk.position); mostrarAlbergue(it)
                 }; true
-            }; map.overlays.add(m)
+            }; map.overlays.add(m); marcAlb.add(m)
         }
         map.invalidate(); actualizarBtnCercanas(l)
+        pendienteMostrarAlerta?.let { id ->
+            pendienteMostrarAlerta = null
+            l.find { it.id == id }?.let { showPanel(it) }
+        }
     }
 
     private fun mostrarAlbergue(al: Albergue) {

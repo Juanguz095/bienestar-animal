@@ -80,6 +80,7 @@ class DetalleAdopcionActivity : AppCompatActivity() {
                 val intent = Intent(this@DetalleAdopcionActivity, MainActivity::class.java).apply {
                     putExtra("centrar_lat", p.latitud)
                     putExtra("centrar_lng", p.longitud)
+                    putExtra("mostrar_alerta", publicacionId)
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 }
                 startActivity(intent)
