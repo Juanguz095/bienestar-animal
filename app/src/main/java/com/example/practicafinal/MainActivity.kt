@@ -274,7 +274,7 @@ class MainActivity : AppCompatActivity() {
                     "Adopcion",
                     "Bella",
                     "Perrita cariñosa en busca de hogar",
-                    null,
+                    "android.resource://com.example.practicafinal/drawable/perro_adopcion",
                     null,
                     "Perro",
                     -12.0580,
@@ -286,11 +286,23 @@ class MainActivity : AppCompatActivity() {
                     "Adopcion",
                     "Simba",
                     "Gatito juguetón esperando adopción",
-                    null,
+                    "android.resource://com.example.practicafinal/drawable/gato_adopcion",
                     null,
                     "Gato",
                     -12.0700,
                     -77.0480
+                )
+                ControladorPublicaciones.publicar(
+                    this,
+                    null,
+                    "Adopcion",
+                    "Rocky",
+                    "Perrito activo esperando un hogar",
+                    "android.resource://com.example.practicafinal/drawable/perro_rocky",
+                    null,
+                    "Perro",
+                    -12.0620,
+                    -77.0410
                 )
             }
             if (ControladorAlbergues.obtenerAlbergues(this).isEmpty()) {
@@ -300,7 +312,7 @@ class MainActivity : AppCompatActivity() {
                     "Refugio de mascotas",
                     "Av. Universitaria 123",
                     "999888777",
-                    null,
+                    "android.resource://com.example.practicafinal/drawable/albergue_patitas",
                     -12.0850,
                     -77.0050
                 )
@@ -310,7 +322,7 @@ class MainActivity : AppCompatActivity() {
                     "Hogar temporal",
                     "Jr. Las Flores 456",
                     "987654321",
-                    null,
+                    "android.resource://com.example.practicafinal/drawable/albergue_huellitas",
                     -12.0200,
                     -77.0800
                 )
@@ -320,7 +332,7 @@ class MainActivity : AppCompatActivity() {
                     "Adopción responsable",
                     "Calle Los Olivos 789",
                     "912345678",
-                    null,
+                    "android.resource://com.example.practicafinal/drawable/albergue_peludo",
                     -12.0760,
                     -77.0620
                 )

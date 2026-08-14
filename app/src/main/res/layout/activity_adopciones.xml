@@ -23,6 +23,7 @@
 
         <!-- Corazón + contador -->
         <LinearLayout
+            android:id="@+id/btn_favoritos"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
@@ -171,10 +172,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_opciones"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="3 opciones para adoptar"
+                        android:text="0 opciones para adoptar"
                         android:textColor="#9E9E9E"
                         android:textSize="12sp" />
                 </LinearLayout>

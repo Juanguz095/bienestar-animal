@@ -170,7 +170,7 @@ class AlberguesActivity : AppCompatActivity() {
                             DetalleAlbergueActivity::class.java
                         ).apply { putExtra("albergue_id", a.id) })
                 }
-                h.itemView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_llamar)
+                h.itemView.findViewById<android.widget.ImageView>(R.id.btn_llamar)
                     .setOnClickListener { startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:${a.telefono}"))) }
             }
 

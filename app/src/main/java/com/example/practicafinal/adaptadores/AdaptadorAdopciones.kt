@@ -35,12 +35,11 @@ class AdaptadorAdopciones(
         val foto = p.foto?.let { decodificarImagen(holder.itemView.context, it, 4) }
         if (foto != null) {
             holder.imgFoto.setImageBitmap(foto)
+            holder.tvPlaceholder.visibility = View.GONE
         } else {
-            val res =
-                if (p.especie.equals("Gato", ignoreCase = true)) R.drawable.gato_adopcion else R.drawable.perro_adopcion
-            holder.imgFoto.setImageResource(res)
+            holder.imgFoto.setImageDrawable(null)
+            holder.tvPlaceholder.visibility = View.VISIBLE
         }
-        holder.tvPlaceholder.visibility = View.GONE
 
         val especie = p.especie?.take(20) ?: ""
         if (especie.isNotEmpty()) {

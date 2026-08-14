@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ class AdopcionesActivity : AppCompatActivity() {
     private lateinit var etBuscar: EditText
     private lateinit var rvAnimales: androidx.recyclerview.widget.RecyclerView
     private lateinit var tvFavCount: TextView
+    private lateinit var tvOpciones: TextView
 
     private var publicaciones: List<Publicacion> = emptyList()
     private var filtroEspecie: String? = null
@@ -35,7 +37,13 @@ class AdopcionesActivity : AppCompatActivity() {
         etBuscar = findViewById(R.id.et_buscar)
         rvAnimales = findViewById(R.id.rv_animales)
         tvFavCount = findViewById(R.id.tv_fav_count)
+        tvOpciones = findViewById(R.id.tv_opciones)
         rvAnimales.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        // Corazón de favoritos: abre la ventana de animales favoritos
+        findViewById<View>(R.id.btn_favoritos).setOnClickListener {
+            startActivity(Intent(this, MisFavoritosActivity::class.java))
+        }
 
         etBuscar.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) = aplicarFiltros()
@@ -75,6 +83,8 @@ class AdopcionesActivity : AppCompatActivity() {
             runOnUiThread {
                 aplicarFiltros()
                 actualizarContadorFav()
+                val n = publicaciones.size
+                tvOpciones.text = if (n == 1) "1 opción para adoptar" else "$n opciones para adoptar"
             }
         }
     }

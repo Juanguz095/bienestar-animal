@@ -29,10 +29,15 @@
                 android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textColor="#9E9E9E" android:textSize="11sp" />
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_llamar" style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="44dp" android:layout_height="44dp"
-            android:text="📞" android:textSize="18sp" android:insetTop="0dp" android:insetBottom="0dp"
-            app:strokeColor="#1E88E5" app:cornerRadius="22dp" />
+        <ImageView
+            android:id="@+id/btn_llamar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_circulo_telefono"
+            android:contentDescription="Llamar"
+            android:padding="11dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_telefono" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

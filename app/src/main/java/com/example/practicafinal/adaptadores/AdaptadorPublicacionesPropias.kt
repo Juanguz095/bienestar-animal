@@ -45,11 +45,6 @@ class AdaptadorPublicacionesPropias(
             holder.tvPlaceholder.visibility = View.GONE
         } else {
             holder.tvPlaceholder.visibility = View.VISIBLE
-            holder.tvPlaceholder.text = when {
-                p.especie.equals("Perro", ignoreCase = true) -> "🐶"
-                p.especie.equals("Gato", ignoreCase = true) -> "🐱"
-                else -> "🐾"
-            }
         }
 
         holder.tvNombre.text = p.nombre

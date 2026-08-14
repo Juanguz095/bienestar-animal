@@ -56,12 +56,10 @@ class DetalleAdopcionActivity : AppCompatActivity() {
         val foto = p.foto?.let { decodificarImagen(this, it, 2) }
         if (foto != null) {
             imgFoto.setImageBitmap(foto)
+            tvPlaceholder.visibility = View.GONE
         } else {
-            val res =
-                if (p.especie.equals("Gato", ignoreCase = true)) R.drawable.gato_adopcion else R.drawable.perro_adopcion
-            imgFoto.setImageResource(res)
+            tvPlaceholder.visibility = View.VISIBLE
         }
-        tvPlaceholder.visibility = View.GONE
 
         // Especie
         val tvEspecie = findViewById<TextView>(R.id.tv_especie_detalle)
