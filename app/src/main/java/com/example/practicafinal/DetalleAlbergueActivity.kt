@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.practicafinal.controller.ControladorAlbergues
+import com.example.practicafinal.controlador.ControladorAlbergues
 import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.XYTileSource

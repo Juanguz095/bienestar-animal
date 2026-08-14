@@ -15,11 +15,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.practicafinal.controller.ControladorAlbergues
-import com.example.practicafinal.controller.ControladorPublicaciones
-import com.example.practicafinal.model.Albergue
-import com.example.practicafinal.model.Avistamiento;
-import com.example.practicafinal.model.Publicacion
+import com.example.practicafinal.controlador.ControladorAlbergues
+import com.example.practicafinal.controlador.ControladorPublicaciones
+import com.example.practicafinal.modelo.Albergue
+import com.example.practicafinal.modelo.Avistamiento;
+import com.example.practicafinal.modelo.Publicacion
 import com.example.practicafinal.session.SesionManager;
 import com.example.practicafinal.util.fechaRelativa
 import com.google.android.material.button.MaterialButton

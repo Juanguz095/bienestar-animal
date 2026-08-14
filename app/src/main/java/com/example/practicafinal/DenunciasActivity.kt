@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.controller.ControladorDenuncias
+import com.example.practicafinal.controlador.ControladorDenuncias
 import com.example.practicafinal.util.decodificarImagen
 import com.example.practicafinal.util.fechaRelativa
 import java.util.concurrent.Executors

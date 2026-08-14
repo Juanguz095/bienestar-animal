@@ -7,8 +7,8 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.practicafinal.controller.ControladorPublicaciones
-import com.example.practicafinal.model.Publicacion
+import com.example.practicafinal.controlador.ControladorPublicaciones
+import com.example.practicafinal.modelo.Publicacion
 import com.example.practicafinal.session.FavoritosManager
 import com.example.practicafinal.util.decodificarImagen
 import java.util.concurrent.Executors

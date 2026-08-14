@@ -6,9 +6,9 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.practicafinal.controller.ControladorDenuncias
-import com.example.practicafinal.controller.ControladorPublicaciones
-import com.example.practicafinal.controller.ControladorUsuarios
+import com.example.practicafinal.controlador.ControladorDenuncias
+import com.example.practicafinal.controlador.ControladorPublicaciones
+import com.example.practicafinal.controlador.ControladorUsuarios
 import com.example.practicafinal.session.FavoritosManager
 import com.example.practicafinal.session.SesionManager
 import java.util.concurrent.Executors

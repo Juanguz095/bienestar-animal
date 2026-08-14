@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.practicafinal.controller.ControladorPublicaciones
+import com.example.practicafinal.controlador.ControladorPublicaciones
 import com.example.practicafinal.session.SesionManager
 import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.config.Configuration

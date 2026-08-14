@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.practicafinal.adapters.AdaptadorAdopciones
-import com.example.practicafinal.controller.ControladorPublicaciones
-import com.example.practicafinal.model.Publicacion
+import com.example.practicafinal.adaptadores.AdaptadorAdopciones
+import com.example.practicafinal.controlador.ControladorPublicaciones
+import com.example.practicafinal.modelo.Publicacion
 import com.example.practicafinal.session.FavoritosManager
 import java.util.concurrent.Executors
 

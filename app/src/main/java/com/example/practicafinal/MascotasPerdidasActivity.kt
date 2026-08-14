@@ -10,10 +10,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.adapters.AdaptadorPerdidas
-import com.example.practicafinal.controller.ControladorPublicaciones
-import com.example.practicafinal.model.Avistamiento
-import com.example.practicafinal.model.Publicacion
+import com.example.practicafinal.adaptadores.AdaptadorPerdidas
+import com.example.practicafinal.controlador.ControladorPublicaciones
+import com.example.practicafinal.modelo.Avistamiento
+import com.example.practicafinal.modelo.Publicacion
 import com.example.practicafinal.util.fechaRelativa
 import java.util.concurrent.Executors
 

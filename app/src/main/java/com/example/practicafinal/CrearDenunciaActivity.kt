@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.practicafinal.controller.ControladorDenuncias
+import com.example.practicafinal.controlador.ControladorDenuncias
 import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver

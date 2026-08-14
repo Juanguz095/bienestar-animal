@@ -6,8 +6,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.practicafinal.adapters.AdaptadorPublicacionesPropias
-import com.example.practicafinal.controller.ControladorPublicaciones
+import com.example.practicafinal.adaptadores.AdaptadorPublicacionesPropias
+import com.example.practicafinal.controlador.ControladorPublicaciones
 import com.example.practicafinal.session.SesionManager
 import java.util.concurrent.Executors
 
@@ -45,7 +45,7 @@ class MisPublicacionesActivity : AppCompatActivity() {
         }
     }
 
-    private fun resolverPublicacion(publicacion: com.example.practicafinal.model.Publicacion) {
+    private fun resolverPublicacion(publicacion: com.example.practicafinal.modelo.Publicacion) {
         executor.execute {
             ControladorPublicaciones.resolver(this, publicacion.id)
             runOnUiThread {
