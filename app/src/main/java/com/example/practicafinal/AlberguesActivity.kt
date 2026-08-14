@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.ControladorAlbergues
 import com.example.practicafinal.model.Albergue
 import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.util.GeoPoint
@@ -92,9 +92,9 @@ class AlberguesActivity : AppCompatActivity() {
 
     private fun cargar() {
         exec.execute {
-            val db = DatabaseHelper(this)
-            if (db.obtenerAlbergues().isEmpty()) {
-                db.insertarAlbergue(
+            if (ControladorAlbergues.obtenerAlbergues(this).isEmpty()) {
+                ControladorAlbergues.insertarAlbergue(
+                    this,
                     "Albergue Patitas",
                     "Refugio de mascotas",
                     "Av. Universitaria 123",
@@ -103,7 +103,8 @@ class AlberguesActivity : AppCompatActivity() {
                     -12.0850,
                     -77.0050
                 )
-                db.insertarAlbergue(
+                ControladorAlbergues.insertarAlbergue(
+                    this,
                     "Refugio Huellitas",
                     "Hogar temporal",
                     "Jr. Las Flores 456",
@@ -112,7 +113,8 @@ class AlberguesActivity : AppCompatActivity() {
                     -12.0200,
                     -77.0800
                 )
-                db.insertarAlbergue(
+                ControladorAlbergues.insertarAlbergue(
+                    this,
                     "Hogar Peludo",
                     "Adopción responsable",
                     "Calle Los Olivos 789",
@@ -122,7 +124,7 @@ class AlberguesActivity : AppCompatActivity() {
                     -77.0620
                 )
             }
-            albergues = db.obtenerAlbergues(); userLoc = obtenerUbicacion()
+            albergues = ControladorAlbergues.obtenerAlbergues(this); userLoc = obtenerUbicacion()
             runOnUiThread { mostrarLista() }
         }
     }

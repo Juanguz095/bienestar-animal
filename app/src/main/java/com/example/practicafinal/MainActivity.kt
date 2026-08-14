@@ -15,7 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.ControladorAlbergues
+import com.example.practicafinal.controller.ControladorPublicaciones
 import com.example.practicafinal.model.Albergue
 import com.example.practicafinal.model.Avistamiento;
 import com.example.practicafinal.model.Publicacion
@@ -230,88 +231,103 @@ class MainActivity : AppCompatActivity() {
 
     private fun cargarBD() {
         exec.execute {
-            val db = DatabaseHelper(this); if (db.obtenerPublicaciones().isEmpty()) {
-            db.insertarPublicacion(
-                null,
-                "Perdida",
-                "Max",
-                "Se perdió cerca del Centro de Lima",
-                null,
-                "Centro de Lima",
-                "Perro",
-                -12.0464,
-                -77.0428
-            ); db.insertarPublicacion(
-                null,
-                "Perdida",
-                "Michi",
-                "Se perdió en La Victoria",
-                null,
-                "La Victoria",
-                "Gato",
-                -12.0670,
-                -77.0337
-            ); db.insertarPublicacion(
-                null,
-                "Encontrada",
-                "Luna",
-                "Encontrado en Lince, busca dueño",
-                null,
-                "Lince",
-                "Perro",
-                -12.0911,
-                -77.0359
-            ); db.insertarPublicacion(
-                null,
-                "Adopcion",
-                "Bella",
-                "Perrita cariñosa en busca de hogar",
-                null,
-                null,
-                "Perro",
-                -12.0580,
-                -77.0360
-            ); db.insertarPublicacion(
-                null,
-                "Adopcion",
-                "Simba",
-                "Gatito juguetón esperando adopción",
-                null,
-                null,
-                "Gato",
-                -12.0700,
-                -77.0480
-            )
-        }; if (db.obtenerAlbergues().isEmpty()) {
-            db.insertarAlbergue(
-                "Albergue Patitas",
-                "Refugio de mascotas",
-                "Av. Universitaria 123",
-                "999888777",
-                null,
-                -12.0850,
-                -77.0050
-            ); db.insertarAlbergue(
-                "Refugio Huellitas",
-                "Hogar temporal",
-                "Jr. Las Flores 456",
-                "987654321",
-                null,
-                -12.0200,
-                -77.0800
-            ); db.insertarAlbergue(
-                "Hogar Peludo",
-                "Adopción responsable",
-                "Calle Los Olivos 789",
-                "912345678",
-                null,
-                -12.0760,
-                -77.0620
-            )
-        };
-            val l = db.obtenerPublicaciones();
-            val a = db.obtenerAvistamientos();
-            val alb = db.obtenerAlbergues();
+            if (ControladorPublicaciones.obtenerPublicaciones(this).isEmpty()) {
+                ControladorPublicaciones.publicar(
+                    this,
+                    null,
+                    "Perdida",
+                    "Max",
+                    "Se perdió cerca del Centro de Lima",
+                    null,
+                    "Centro de Lima",
+                    "Perro",
+                    -12.0464,
+                    -77.0428
+                )
+                ControladorPublicaciones.publicar(
+                    this,
+                    null,
+                    "Perdida",
+                    "Michi",
+                    "Se perdió en La Victoria",
+                    null,
+                    "La Victoria",
+                    "Gato",
+                    -12.0670,
+                    -77.0337
+                )
+                ControladorPublicaciones.publicar(
+                    this,
+                    null,
+                    "Encontrada",
+                    "Luna",
+                    "Encontrado en Lince, busca dueño",
+                    null,
+                    "Lince",
+                    "Perro",
+                    -12.0911,
+                    -77.0359
+                )
+                ControladorPublicaciones.publicar(
+                    this,
+                    null,
+                    "Adopcion",
+                    "Bella",
+                    "Perrita cariñosa en busca de hogar",
+                    null,
+                    null,
+                    "Perro",
+                    -12.0580,
+                    -77.0360
+                )
+                ControladorPublicaciones.publicar(
+                    this,
+                    null,
+                    "Adopcion",
+                    "Simba",
+                    "Gatito juguetón esperando adopción",
+                    null,
+                    null,
+                    "Gato",
+                    -12.0700,
+                    -77.0480
+                )
+            }
+            if (ControladorAlbergues.obtenerAlbergues(this).isEmpty()) {
+                ControladorAlbergues.insertarAlbergue(
+                    this,
+                    "Albergue Patitas",
+                    "Refugio de mascotas",
+                    "Av. Universitaria 123",
+                    "999888777",
+                    null,
+                    -12.0850,
+                    -77.0050
+                )
+                ControladorAlbergues.insertarAlbergue(
+                    this,
+                    "Refugio Huellitas",
+                    "Hogar temporal",
+                    "Jr. Las Flores 456",
+                    "987654321",
+                    null,
+                    -12.0200,
+                    -77.0800
+                )
+                ControladorAlbergues.insertarAlbergue(
+                    this,
+                    "Hogar Peludo",
+                    "Adopción responsable",
+                    "Calle Los Olivos 789",
+                    "912345678",
+                    null,
+                    -12.0760,
+                    -77.0620
+                )
+            }
+            val l = ControladorPublicaciones.obtenerPublicaciones(this)
+            val a = ControladorPublicaciones.obtenerAvistamientos(this)
+            val alb = ControladorAlbergues.obtenerAlbergues(this)
             val n = l.associate { it.id to it.nombre }; runOnUiThread { render(l, a, alb, n) }
         }
     }
@@ -388,8 +404,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun dialogoCercanas() {
         val u = userLoc ?: return; exec.execute {
-            val db = DatabaseHelper(this);
-            val pubs = db.obtenerPublicaciones().filter { it.estado != "Resuelta" }; data class I(
+            val pubs =
+                ControladorPublicaciones.obtenerPublicaciones(this).filter { it.estado != "Resuelta" }; data class I(
             val p: Publicacion,
             val km: Double
         );
@@ -488,11 +504,7 @@ class MainActivity : AppCompatActivity() {
         val pt = userLoc ?: getLastLoc()?.let { GeoPoint(it.latitude, it.longitude) }; if (pt == null) {
             Toast.makeText(this, "No tenemos tu ubicación", Toast.LENGTH_SHORT).show(); return
         }; exec.execute {
-            DatabaseHelper(this).actualizarAvistamiento(
-                p.id,
-                pt.latitude,
-                pt.longitude
-            ); runOnUiThread {
+            ControladorPublicaciones.actualizarAvistamiento(this, p.id, pt.latitude, pt.longitude); runOnUiThread {
             Toast.makeText(this, "¡Gracias!", Toast.LENGTH_SHORT).show(); ocultarPanel(); cargarBD()
         }
         }
@@ -500,7 +512,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun resolver() {
         val p = pubActual ?: return; exec.execute {
-            DatabaseHelper(this).marcarResuelta(p.id); runOnUiThread {
+            ControladorPublicaciones.resolver(this, p.id); runOnUiThread {
             Toast.makeText(
                 this,
                 "¡Resuelta!",

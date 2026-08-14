@@ -10,8 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.adapters.PerdidasAdapter
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.adapters.AdaptadorPerdidas
+import com.example.practicafinal.controller.ControladorPublicaciones
 import com.example.practicafinal.model.Avistamiento
 import com.example.practicafinal.model.Publicacion
 import com.example.practicafinal.util.fechaRelativa
@@ -48,14 +48,13 @@ class MascotasPerdidasActivity : AppCompatActivity() {
 
     private fun cargarPerdidas() {
         executor.execute {
-            val db = DatabaseHelper(this)
-            val lista = db.obtenerPerdidas()
-            val todosAvist = db.obtenerAvistamientos()
+            val lista = ControladorPublicaciones.obtenerPerdidas(this)
+            val todosAvist = ControladorPublicaciones.obtenerAvistamientos(this)
             val avistPorId = todosAvist.groupBy { it.publicacionId }
 
             runOnUiThread {
                 tvVacio.visibility = if (lista.isEmpty()) View.VISIBLE else View.GONE
-                rvPerdidas.adapter = PerdidasAdapter(
+                rvPerdidas.adapter = AdaptadorPerdidas(
                     lista, avistPorId,
                     onSighting = { p -> reportarAvistamiento(p) },
                     onVerAvistamientos = { p -> mostrarAvistamientos(p, avistPorId) }

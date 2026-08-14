@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.ControladorPublicaciones
 import com.example.practicafinal.model.Publicacion
 import com.example.practicafinal.session.FavoritosManager
 import com.example.practicafinal.util.decodificarImagen
@@ -39,7 +39,7 @@ class DetalleAdopcionActivity : AppCompatActivity() {
 
     private fun cargarPublicacion() {
         executor.execute {
-            val publicacion = DatabaseHelper(this).obtenerPorIdPublicacion(publicacionId)
+            val publicacion = ControladorPublicaciones.obtenerPorId(this, publicacionId)
             runOnUiThread {
                 if (publicacion == null) {
                     finish(); return@runOnUiThread
@@ -56,10 +56,12 @@ class DetalleAdopcionActivity : AppCompatActivity() {
         val foto = p.foto?.let { decodificarImagen(this, it, 2) }
         if (foto != null) {
             imgFoto.setImageBitmap(foto)
-            tvPlaceholder.visibility = View.GONE
         } else {
-            tvPlaceholder.visibility = View.VISIBLE
+            val res =
+                if (p.especie.equals("Gato", ignoreCase = true)) R.drawable.gato_adopcion else R.drawable.perro_adopcion
+            imgFoto.setImageResource(res)
         }
+        tvPlaceholder.visibility = View.GONE
 
         // Especie
         val tvEspecie = findViewById<TextView>(R.id.tv_especie_detalle)

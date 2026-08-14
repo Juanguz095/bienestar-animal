@@ -4,11 +4,11 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.practicafinal.model.Albergue
-import com.example.practicafinal.model.Avistamiento
-import com.example.practicafinal.model.Denuncia
-import com.example.practicafinal.model.Publicacion
-import com.example.practicafinal.model.Usuario
+import com.example.practicafinal.modelo.Albergue
+import com.example.practicafinal.modelo.Avistamiento
+import com.example.practicafinal.modelo.Denuncia
+import com.example.practicafinal.modelo.Publicacion
+import com.example.practicafinal.modelo.Usuario
 import java.security.MessageDigest
 import java.security.SecureRandom
 

@@ -6,8 +6,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.practicafinal.adapters.PublicacionesPropiasAdapter
-import com.example.practicafinal.controller.PublicacionController
+import com.example.practicafinal.adapters.AdaptadorPublicacionesPropias
+import com.example.practicafinal.controller.ControladorPublicaciones
 import com.example.practicafinal.session.SesionManager
 import java.util.concurrent.Executors
 
@@ -34,11 +34,11 @@ class MisPublicacionesActivity : AppCompatActivity() {
     private fun cargarPublicaciones() {
         val usuarioId = SesionManager.obtenerUsuarioId(this) ?: return
         executor.execute {
-            val todas = PublicacionController.obtenerPublicaciones(this)
+            val todas = ControladorPublicaciones.obtenerPublicaciones(this)
             val propias = todas.filter { it.usuarioId == usuarioId }
             runOnUiThread {
                 tvVacio.visibility = if (propias.isEmpty()) View.VISIBLE else View.GONE
-                rv.adapter = PublicacionesPropiasAdapter(propias) { publicacion ->
+                rv.adapter = AdaptadorPublicacionesPropias(propias) { publicacion ->
                     resolverPublicacion(publicacion)
                 }
             }
@@ -47,7 +47,7 @@ class MisPublicacionesActivity : AppCompatActivity() {
 
     private fun resolverPublicacion(publicacion: com.example.practicafinal.model.Publicacion) {
         executor.execute {
-            PublicacionController.resolver(this, publicacion.id)
+            ControladorPublicaciones.resolver(this, publicacion.id)
             runOnUiThread {
                 Toast.makeText(this, "Publicación resuelta", Toast.LENGTH_SHORT).show()
                 cargarPublicaciones()

@@ -1,14 +1,13 @@
 package com.example.practicafinal
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.practicafinal.adapters.PublicacionesPropiasAdapter
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.adaptadores.AdaptadorPublicacionesPropias
+import com.example.practicafinal.controlador.ControladorPublicaciones
 import com.example.practicafinal.session.FavoritosManager
 import java.util.concurrent.Executors
 
@@ -30,14 +29,17 @@ class MisFavoritosActivity : AppCompatActivity() {
     private fun cargar() {
         exec.execute {
             val idsFav = FavoritosManager.obtenerIds(this)
-            val pubs = DatabaseHelper(this).obtenerPublicaciones().filter { idsFav.contains(it.id.toString()) }
+            val pubs = ControladorPublicaciones.obtenerPublicaciones(this).filter { idsFav.contains(it.id.toString()) }
             runOnUiThread {
                 tvVacio.visibility = if (pubs.isEmpty()) View.VISIBLE else View.GONE
-                rv.adapter = PublicacionesPropiasAdapter(pubs) { publicacion ->
-                    FavoritosManager.toggle(this, publicacion.id)
-                    Toast.makeText(this, "Quitado de favoritos", Toast.LENGTH_SHORT).show()
-                    cargar()
-                }
+                rv.adapter = AdaptadorPublicacionesPropias(
+                    pubs, onResolver = { publicacion ->
+                        FavoritosManager.toggle(this, publicacion.id)
+                        Toast.makeText(this, "Quitado de favoritos", Toast.LENGTH_SHORT).show()
+                        cargar()
+                    },
+                    mostrarBotonResolver = false
+                )
             }
         }
     }

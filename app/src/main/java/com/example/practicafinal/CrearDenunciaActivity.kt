@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.ControladorDenuncias
 import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -135,7 +135,7 @@ class CrearDenunciaActivity : AppCompatActivity() {
         }
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_enviar).isEnabled = false
         exec.execute {
-            DatabaseHelper(this).insertarDenuncia(motivo, desc, fotoUri, pt.latitude, pt.longitude)
+            ControladorDenuncias.insertarDenuncia(this, motivo, desc, fotoUri, pt.latitude, pt.longitude)
             runOnUiThread { Toast.makeText(this, "Denuncia enviada", Toast.LENGTH_SHORT).show(); finish() }
         }
     }

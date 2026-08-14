@@ -9,8 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.practicafinal.db.DatabaseHelper
-import com.example.practicafinal.model.Denuncia
+import com.example.practicafinal.controller.ControladorDenuncias
 import com.example.practicafinal.util.decodificarImagen
 import com.example.practicafinal.util.fechaRelativa
 import java.util.concurrent.Executors
@@ -39,7 +38,7 @@ class DenunciasActivity : AppCompatActivity() {
 
     private fun cargar() {
         exec.execute {
-            val lista = DatabaseHelper(this).obtenerDenuncias()
+            val lista = ControladorDenuncias.obtenerDenuncias(this)
             runOnUiThread {
                 tvVacio.visibility = if (lista.isEmpty()) View.VISIBLE else View.GONE
                 rv.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

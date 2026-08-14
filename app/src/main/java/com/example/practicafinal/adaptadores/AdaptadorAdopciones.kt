@@ -1,6 +1,5 @@
-package com.example.practicafinal.adapters
+package com.example.practicafinal.adaptadores
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +7,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.R
-import com.example.practicafinal.model.Publicacion
+import com.example.practicafinal.modelo.Publicacion
 import com.example.practicafinal.util.decodificarImagen
 
-class AdopcionesAdapter(
+class AdaptadorAdopciones(
     private val items: List<Publicacion>,
     private val onCardClick: (Publicacion) -> Unit
-) : RecyclerView.Adapter<AdopcionesAdapter.AdopcionViewHolder>() {
+) : RecyclerView.Adapter<AdaptadorAdopciones.AdopcionViewHolder>() {
 
     class AdopcionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgFoto: ImageView = view.findViewById(R.id.img_foto)
@@ -36,11 +35,12 @@ class AdopcionesAdapter(
         val foto = p.foto?.let { decodificarImagen(holder.itemView.context, it, 4) }
         if (foto != null) {
             holder.imgFoto.setImageBitmap(foto)
-            holder.tvPlaceholder.visibility = View.GONE
         } else {
-            holder.imgFoto.setImageDrawable(null)
-            holder.tvPlaceholder.visibility = View.VISIBLE
+            val res =
+                if (p.especie.equals("Gato", ignoreCase = true)) R.drawable.gato_adopcion else R.drawable.perro_adopcion
+            holder.imgFoto.setImageResource(res)
         }
+        holder.tvPlaceholder.visibility = View.GONE
 
         val especie = p.especie?.take(20) ?: ""
         if (especie.isNotEmpty()) {

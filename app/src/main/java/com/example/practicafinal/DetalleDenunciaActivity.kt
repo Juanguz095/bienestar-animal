@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.ControladorDenuncias
 import com.example.practicafinal.util.decodificarImagen
 import com.example.practicafinal.util.fechaRelativa
 import java.util.concurrent.Executors
@@ -23,7 +23,7 @@ class DetalleDenunciaActivity : AppCompatActivity() {
             finish(); return
         }
         exec.execute {
-            val d = DatabaseHelper(this).obtenerDenuncias().find { it.id == id }
+            val d = ControladorDenuncias.obtenerDenuncias(this).find { it.id == id }
             runOnUiThread {
                 if (d == null) {
                     finish(); return@runOnUiThread

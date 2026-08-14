@@ -1,4 +1,4 @@
-package com.example.practicafinal.adapters
+package com.example.practicafinal.adaptadores
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +8,15 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.R
-import com.example.practicafinal.model.Publicacion
+import com.example.practicafinal.modelo.Publicacion
 import com.example.practicafinal.util.decodificarImagen
 import com.example.practicafinal.util.fechaRelativa
 
-class PublicacionesPropiasAdapter(
+class AdaptadorPublicacionesPropias(
     private val items: List<Publicacion>,
+    private val mostrarBotonResolver: Boolean = true,
     private val onResolver: (Publicacion) -> Unit
-) : RecyclerView.Adapter<PublicacionesPropiasAdapter.PubViewHolder>() {
+) : RecyclerView.Adapter<AdaptadorPublicacionesPropias.PubViewHolder>() {
 
     class PubViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgFoto: ImageView = view.findViewById(R.id.img_foto)
@@ -67,7 +68,8 @@ class PublicacionesPropiasAdapter(
                 if (resuelta) android.R.color.darker_gray else R.color.verde_estado
             )
         )
-        holder.btnResolver.visibility = if (resuelta) View.GONE else View.VISIBLE
+        holder.btnResolver.visibility =
+            if (resuelta || !mostrarBotonResolver) View.GONE else View.VISIBLE
         holder.btnResolver.setOnClickListener { onResolver(p) }
     }
 

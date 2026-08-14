@@ -1,11 +1,11 @@
-package com.example.practicafinal.controller
+package com.example.practicafinal.controlador
 
 import android.content.Context
 import com.example.practicafinal.db.DatabaseHelper
-import com.example.practicafinal.model.Usuario
+import com.example.practicafinal.modelo.Usuario
 
 /** Lógica de negocio para registro e inicio de sesión. */
-object UsuarioController {
+object ControladorUsuarios {
 
     /**
      * Valida los campos de registro.
@@ -32,5 +32,10 @@ object UsuarioController {
     /** Verifica las credenciales. Devuelve el usuario si son correctas, null si no. */
     fun iniciarSesion(context: Context, correo: String, contrasena: String): Usuario? {
         return DatabaseHelper(context).validarLogin(correo, contrasena)
+    }
+
+    /** Obtiene un usuario por su id. */
+    fun obtenerPorId(context: Context, id: Long): Usuario? {
+        return DatabaseHelper(context).obtenerPorId(id)
     }
 }

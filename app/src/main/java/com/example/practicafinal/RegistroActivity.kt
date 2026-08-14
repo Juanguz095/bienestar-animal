@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.practicafinal.controller.UsuarioController
+import com.example.practicafinal.controlador.ControladorUsuarios
 import com.example.practicafinal.session.SesionManager
 import java.util.concurrent.Executors
 
@@ -43,14 +43,14 @@ class RegistroActivity : AppCompatActivity() {
         val contrasena = etContrasena.text.toString()
         val confirmar = etConfirmar.text.toString()
 
-        val error = UsuarioController.validarRegistro(nombre, correo, contrasena, confirmar)
+        val error = ControladorUsuarios.validarRegistro(nombre, correo, contrasena, confirmar)
         if (error != null) {
             mostrarError(error); return
         }
 
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_registrar).isEnabled = false
         executor.execute {
-            val id = UsuarioController.registrar(this, nombre, correo, contrasena)
+            val id = ControladorUsuarios.registrar(this, nombre, correo, contrasena)
             runOnUiThread {
                 findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_registrar).isEnabled =
                     true

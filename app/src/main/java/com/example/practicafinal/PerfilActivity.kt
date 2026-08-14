@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.ControladorDenuncias
+import com.example.practicafinal.controller.ControladorPublicaciones
+import com.example.practicafinal.controller.ControladorUsuarios
 import com.example.practicafinal.session.FavoritosManager
 import com.example.practicafinal.session.SesionManager
 import java.util.concurrent.Executors
@@ -33,10 +35,10 @@ class PerfilActivity : AppCompatActivity() {
 
         // Cargar datos reales
         executor.execute {
-            val usuario = usuarioId?.let { DatabaseHelper(this).obtenerPorId(it) }
+            val usuario = usuarioId?.let { ControladorUsuarios.obtenerPorId(this, it) }
             val pubCount = if (usuarioId != null)
-                DatabaseHelper(this).obtenerPublicaciones().count { it.usuarioId == usuarioId } else 0
-            val denCount = DatabaseHelper(this).obtenerDenuncias().size
+                ControladorPublicaciones.obtenerPublicaciones(this).count { it.usuarioId == usuarioId } else 0
+            val denCount = ControladorDenuncias.obtenerDenuncias(this).size
             val favCount = FavoritosManager.contar(this)
             runOnUiThread {
                 usuario?.let {
@@ -87,8 +89,8 @@ class PerfilActivity : AppCompatActivity() {
         executor.execute {
             val usuarioId = SesionManager.obtenerUsuarioId(this)
             val pubCount = if (usuarioId != null)
-                DatabaseHelper(this).obtenerPublicaciones().count { it.usuarioId == usuarioId } else 0
-            val denCount = DatabaseHelper(this).obtenerDenuncias().size
+                ControladorPublicaciones.obtenerPublicaciones(this).count { it.usuarioId == usuarioId } else 0
+            val denCount = ControladorDenuncias.obtenerDenuncias(this).size
             val favCount = FavoritosManager.contar(this)
             runOnUiThread {
                 findViewById<TextView>(R.id.tv_publicaciones).text = pubCount.toString()

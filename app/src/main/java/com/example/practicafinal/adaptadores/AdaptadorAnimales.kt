@@ -1,4 +1,4 @@
-package com.example.practicafinal.adapters
+package com.example.practicafinal.adaptadores
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.R
-import com.example.practicafinal.model.Animal
+import com.example.practicafinal.modelo.Animal
 
-class AnimalAdapter(private val items: List<Animal>) :
-    RecyclerView.Adapter<AnimalAdapter.AnimalViewHolder>() {
+class AdaptadorAnimales(private val items: List<Animal>) :
+    RecyclerView.Adapter<AdaptadorAnimales.AnimalViewHolder>() {
 
     class AnimalViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvEmoji: TextView = view.findViewById(R.id.tv_emoji)

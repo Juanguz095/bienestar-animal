@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.controller.ControladorAlbergues
 import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.XYTileSource
@@ -34,7 +34,7 @@ class DetalleAlbergueActivity : AppCompatActivity() {
         }
 
         exec.execute {
-            val a = DatabaseHelper(this).obtenerAlbergues().find { it.id == id }
+            val a = ControladorAlbergues.obtenerAlbergues(this).find { it.id == id }
             runOnUiThread {
                 if (a == null) {
                     finish(); return@runOnUiThread

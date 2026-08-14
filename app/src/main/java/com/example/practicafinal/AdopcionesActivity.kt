@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.practicafinal.adapters.AdopcionesAdapter
-import com.example.practicafinal.db.DatabaseHelper
+import com.example.practicafinal.adapters.AdaptadorAdopciones
+import com.example.practicafinal.controller.ControladorPublicaciones
 import com.example.practicafinal.model.Publicacion
 import com.example.practicafinal.session.FavoritosManager
 import java.util.concurrent.Executors
@@ -71,8 +71,7 @@ class AdopcionesActivity : AppCompatActivity() {
 
     private fun cargarAdopciones() {
         executor.execute {
-            val db = DatabaseHelper(this)
-            publicaciones = db.obtenerPublicaciones().filter { it.tipo == "Adopcion" }
+            publicaciones = ControladorPublicaciones.obtenerAdopciones(this)
             runOnUiThread {
                 aplicarFiltros()
                 actualizarContadorFav()
@@ -90,7 +89,7 @@ class AdopcionesActivity : AppCompatActivity() {
             coincideNombre && coincideEspecie
         }
 
-        rvAnimales.adapter = AdopcionesAdapter(filtradas) { publicacion ->
+        rvAnimales.adapter = AdaptadorAdopciones(filtradas) { publicacion ->
             startActivity(
                 Intent(this, DetalleAdopcionActivity::class.java).apply {
                     putExtra(DetalleAdopcionActivity.EXTRA_PUBLICACION_ID, publicacion.id)

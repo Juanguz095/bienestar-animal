@@ -1,4 +1,4 @@
-package com.example.practicafinal.adapters
+package com.example.practicafinal.adaptadores
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,17 +8,17 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practicafinal.R
-import com.example.practicafinal.model.Avistamiento
-import com.example.practicafinal.model.Publicacion
+import com.example.practicafinal.modelo.Avistamiento
+import com.example.practicafinal.modelo.Publicacion
 import com.example.practicafinal.util.decodificarImagen
 import com.example.practicafinal.util.fechaRelativa
 
-class PerdidasAdapter(
+class AdaptadorPerdidas(
     private val items: List<Publicacion>,
     private val avistPorPublicacion: Map<Long, List<Avistamiento>>,
     private val onSighting: (Publicacion) -> Unit,
     private val onVerAvistamientos: (Publicacion) -> Unit
-) : RecyclerView.Adapter<PerdidasAdapter.PerdidaViewHolder>() {
+) : RecyclerView.Adapter<AdaptadorPerdidas.PerdidaViewHolder>() {
 
     class PerdidaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgFoto: ImageView = view.findViewById(R.id.img_foto)

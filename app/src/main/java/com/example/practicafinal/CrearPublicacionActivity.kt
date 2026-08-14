@@ -2,10 +2,8 @@ package com.example.practicafinal
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -15,7 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.practicafinal.controller.PublicacionController
+import com.example.practicafinal.controlador.ControladorPublicaciones
 import com.example.practicafinal.session.SesionManager
 import com.example.practicafinal.util.decodificarImagen
 import org.osmdroid.config.Configuration
@@ -40,16 +38,18 @@ class CrearPublicacionActivity : AppCompatActivity() {
     private lateinit var pinSeleccion: Marker
     private var puntoSeleccionado: GeoPoint? = null
     private var tipoSeleccionado = "Perdida"
+    private var especieSeleccionada = "Perro"
     private var fotoUri: String? = null
 
     private lateinit var etNombre: EditText
     private lateinit var etUltimoLugar: EditText
-    private lateinit var etEspecie: EditText
     private lateinit var etDescripcion: EditText
     private lateinit var tvError: TextView
     private lateinit var chipPerdida: View
     private lateinit var chipEncontrada: View
     private lateinit var chipAdopcion: View
+    private lateinit var chipPerro: View
+    private lateinit var chipGato: View
     private lateinit var imgFoto: ImageView
     private lateinit var tvFotoHint: TextView
 
@@ -79,12 +79,13 @@ class CrearPublicacionActivity : AppCompatActivity() {
 
         etNombre = findViewById(R.id.et_nombre)
         etUltimoLugar = findViewById(R.id.et_ultimo_lugar)
-        etEspecie = findViewById(R.id.et_especie)
         etDescripcion = findViewById(R.id.et_descripcion)
         tvError = findViewById(R.id.tv_error)
         chipPerdida = findViewById(R.id.chip_perdida)
         chipEncontrada = findViewById(R.id.chip_encontrada)
         chipAdopcion = findViewById(R.id.chip_adopcion)
+        chipPerro = findViewById(R.id.chip_especie_perro)
+        chipGato = findViewById(R.id.chip_especie_gato)
         imgFoto = findViewById(R.id.img_foto)
         tvFotoHint = findViewById(R.id.tv_foto_hint)
 
@@ -96,6 +97,8 @@ class CrearPublicacionActivity : AppCompatActivity() {
         chipPerdida.setOnClickListener { seleccionarTipo("Perdida") }
         chipEncontrada.setOnClickListener { seleccionarTipo("Encontrada") }
         chipAdopcion.setOnClickListener { seleccionarTipo("Adopcion") }
+        chipPerro.setOnClickListener { seleccionarEspecie("Perro") }
+        chipGato.setOnClickListener { seleccionarEspecie("Gato") }
 
         configurarMapa()
 
@@ -122,7 +125,7 @@ class CrearPublicacionActivity : AppCompatActivity() {
             )
         )
         map.setMultiTouchControls(false)
-        map.controller.setZoom(15.0)
+        map.controller.setZoom(18.0)
 
         // Si vino de mantener presionado el mapa, usar ese punto
         val lat = intent.getDoubleExtra(EXTRA_LAT, Double.NaN)
@@ -190,14 +193,30 @@ class CrearPublicacionActivity : AppCompatActivity() {
         }
     }
 
+    private fun seleccionarEspecie(especie: String) {
+        especieSeleccionada = especie
+        listOf(chipPerro to "Perro", chipGato to "Gato").forEach { (chip, e) ->
+            val activo = e == especie
+            chip.background = if (activo) {
+                ContextCompat.getDrawable(this, R.drawable.bg_chip_selected)
+            } else {
+                ContextCompat.getDrawable(this, R.drawable.bg_chip)
+            }
+            (chip as TextView).setTextColor(
+                if (activo) ContextCompat.getColor(this, android.R.color.black)
+                else ContextCompat.getColor(this, android.R.color.darker_gray)
+            )
+        }
+    }
+
     private fun publicar() {
         val nombre = etNombre.text.toString().trim()
         val descripcion = etDescripcion.text.toString().trim()
-        val especie = etEspecie.text.toString().trim().ifEmpty { null }
+        val especie = especieSeleccionada
         val ultimoLugar = etUltimoLugar.text.toString().trim().ifEmpty { null }
         val punto = puntoSeleccionado
 
-        val error = PublicacionController.validarPublicacion(nombre, descripcion)
+        val error = ControladorPublicaciones.validarPublicacion(nombre, descripcion)
         if (error != null) {
             mostrarError(error); return
         }
@@ -208,7 +227,7 @@ class CrearPublicacionActivity : AppCompatActivity() {
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_publicar).isEnabled = false
         executor.execute {
             val usuarioId = SesionManager.obtenerUsuarioId(this)
-            PublicacionController.publicar(
+            ControladorPublicaciones.publicar(
                 this, usuarioId, tipoSeleccionado, nombre, descripcion,
                 fotoUri, ultimoLugar, especie,
                 punto.latitude, punto.longitude

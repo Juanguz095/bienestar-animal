@@ -1,4 +1,4 @@
-package com.example.practicafinal.model
+package com.example.practicafinal.modelo
 
 data class Denuncia(
     val id: Long,
