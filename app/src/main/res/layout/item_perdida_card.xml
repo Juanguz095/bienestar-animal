@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <!-- Foto o placeholder -->
+        
         <FrameLayout
             android:layout_width="84dp"
             android:layout_height="84dp">
@@ -37,7 +37,7 @@
                 android:textSize="34sp" />
         </FrameLayout>
 
-        <!-- Info -->
+        
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

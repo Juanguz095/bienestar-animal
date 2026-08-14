@@ -90,10 +90,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         onCreate(db)
     }
 
-    /**
-     * Registra un usuario con la contraseña encriptada (hash + sal).
-     * Devuelve su id, o null si el correo ya está registrado.
-     */
+    
     fun registrar(nombre: String, correo: String, contrasena: String, tipo: String = "Ciudadano"): Long? {
         val sal = generarSal()
         val values = ContentValues().apply {
@@ -106,11 +103,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         return try {
             writableDatabase.insertOrThrow(TABLA_USUARIOS, null, values)
         } catch (_: Exception) {
-            null // correo duplicado
+            null 
         }
     }
 
-    /** Verifica correo + contraseña. Devuelve el usuario si son correctos. */
+    
     fun validarLogin(correo: String, contrasena: String): Usuario? {
         val cursor = readableDatabase.query(
             TABLA_USUARIOS, null, "correo = ?",
@@ -151,7 +148,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         return usuario
     }
 
-    // ─── Publicaciones ─────────────────────────────────────────────
+    
 
     fun insertarPublicacion(
         usuarioId: Long?,
@@ -245,7 +242,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         return p
     }
 
-    // ─── Avistamientos ─────────────────────────────────────────────
+    
 
     fun insertarAvistamiento(
         publicacionId: Long,
@@ -325,7 +322,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         return lista
     }
 
-    /** Actualiza la ubicación al reportar un avistamiento ("Sé dónde está"). */
+    
     fun actualizarAvistamiento(id: Long, latitud: Double, longitud: Double) {
         val values = ContentValues().apply {
             put("latitud", latitud)
@@ -369,7 +366,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "bienestar_an
         return lista
     }
 
-    // ─── Denuncias ─────────────────────────────────────────────────
+    
 
     fun insertarDenuncia(
         motivo: String, descripcion: String, foto: String?,

@@ -33,7 +33,7 @@ class PerfilActivity : AppCompatActivity() {
 
         val usuarioId = SesionManager.obtenerUsuarioId(this)
 
-        // Cargar datos reales
+        
         executor.execute {
             val usuario = usuarioId?.let { ControladorUsuarios.obtenerPorId(this, it) }
             val pubCount = if (usuarioId != null)
@@ -50,7 +50,7 @@ class PerfilActivity : AppCompatActivity() {
             }
         }
 
-        // Cerrar sesión
+        
         findViewById<View>(R.id.row_cerrar_sesion).setOnClickListener {
             SesionManager.cerrarSesion(this)
             startActivity(Intent(this, LoginActivity::class.java).apply {
@@ -59,22 +59,22 @@ class PerfilActivity : AppCompatActivity() {
             finish()
         }
 
-        // Mis publicaciones
+        
         findViewById<View>(R.id.row_publicaciones).setOnClickListener {
             startActivity(Intent(this, MisPublicacionesActivity::class.java))
         }
 
-        // Denuncias
+        
         findViewById<View>(R.id.row_denuncias).setOnClickListener {
             startActivity(Intent(this, DenunciasActivity::class.java))
         }
 
-        // Mis favoritos
+        
         findViewById<View>(R.id.row_favoritos).setOnClickListener {
             startActivity(Intent(this, MisFavoritosActivity::class.java))
         }
 
-        // Pendientes
+        
         val pendientes = listOf(R.id.row_configuracion)
         pendientes.forEach { id ->
             findViewById<View>(id).setOnClickListener {
@@ -85,7 +85,7 @@ class PerfilActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // refrescar contadores al volver
+        
         executor.execute {
             val usuarioId = SesionManager.obtenerUsuarioId(this)
             val pubCount = if (usuarioId != null)

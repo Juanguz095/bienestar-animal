@@ -1,20 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    
     <style name="Base.Theme.PracticaFinal" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        
+        
     </style>
 
     <style name="Theme.PracticaFinal" parent="Base.Theme.PracticaFinal" />
 
-    <!-- Tema translúcido para el menú flotante de opciones -->
+    
     <style name="Theme.PracticaFinal.MenuOverlay" parent="Theme.PracticaFinal">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <!-- Título de la barra superior de Adopciones -->
+    
     <style name="TextAppearance.AdopcionesTitle" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/black</item>

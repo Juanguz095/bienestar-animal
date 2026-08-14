@@ -21,19 +21,19 @@ class SplashActivity : AppCompatActivity() {
         logo.alpha = 0f
         progress.max = 100
 
-        // Animación del logo
+        
         logo.animate()
             .scaleX(1f).scaleY(1f)
             .alpha(1f)
             .setDuration(1500)
             .start()
 
-        // Barra de carga que se llena en paralelo
+        
         val anim = ObjectAnimator.ofInt(progress, "progress", 100)
         anim.duration = 1500
         anim.start()
 
-        // Al terminar la animación, abrir la app
+        
         logo.postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()

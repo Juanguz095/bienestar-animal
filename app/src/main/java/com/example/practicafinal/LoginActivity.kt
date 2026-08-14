@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Si ya hay sesión, ir directo al mapa
+        
         if (SesionManager.tieneSesion(this)) {
             irAlMapa()
             return

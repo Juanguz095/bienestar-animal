@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     tools:context=".MascotasPerdidasActivity">
 
-    <!-- Barra superior -->
+    
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -62,7 +62,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Lista de perdidas -->
+    
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_perdidas"
         android:layout_width="0dp"
@@ -75,7 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scroll_header" />
 
-    <!-- Vacío -->
+    
     <TextView
         android:id="@+id/tv_vacio"
         android:layout_width="wrap_content"

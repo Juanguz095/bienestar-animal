@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 
-/** Decodifica una imagen desde una URI (galería) reduciendo su tamaño. */
+
 fun decodificarImagen(context: Context, uriStr: String, sample: Int = 4): Bitmap? =
     try {
         val uri = Uri.parse(uriStr)

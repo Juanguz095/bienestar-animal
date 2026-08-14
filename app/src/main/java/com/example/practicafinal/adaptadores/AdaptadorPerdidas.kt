@@ -41,7 +41,7 @@ class AdaptadorPerdidas(
     override fun onBindViewHolder(holder: PerdidaViewHolder, position: Int) {
         val p = items[position]
 
-        // Foto o placeholder
+        
         val foto = p.foto?.let { decodificarImagen(holder.itemView.context, it, 8) }
         if (foto != null) {
             holder.imgFoto.setImageBitmap(foto)
@@ -71,7 +71,7 @@ class AdaptadorPerdidas(
         holder.btnVi.isEnabled = !resuelta
         holder.btnVi.setOnClickListener { onSighting(p) }
 
-        // Contador de avistamientos
+        
         val avistCount = avistPorPublicacion[p.id]?.size ?: 0
         if (avistCount > 0) {
             holder.tvAvist.visibility = View.VISIBLE

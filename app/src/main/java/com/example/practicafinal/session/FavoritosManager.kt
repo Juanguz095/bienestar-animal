@@ -3,7 +3,7 @@ package com.example.practicafinal.session
 import android.content.Context
 import android.content.SharedPreferences
 
-/** Almacena y consulta los IDs de publicaciones favoritas de un usuario. */
+
 object FavoritosManager {
 
     private const val PREFS = "favoritos"

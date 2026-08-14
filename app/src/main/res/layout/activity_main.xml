@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Pista para publicar -->
+    
     <TextView
         android:id="@+id/tv_pista_publicar"
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Botón leyenda -->
+    
     <TextView
         android:id="@+id/btn_leyenda"
         android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_pista_publicar" />
 
-    <!-- Botón Alertas cercanas -->
+    
     <TextView
         android:id="@+id/btn_cercanas"
         android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_leyenda" />
 
-    <!-- Botón recentrar ubicación -->
+    
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_recenter"
         android:layout_width="wrap_content"
@@ -84,8 +84,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_recenter" />
 
-    <!-- Botones de zoom (entre perfil y menú) -->
-    <!-- Panel inferior deslizante (detalle de alerta) -->
+    
+    
     <LinearLayout
         android:id="@+id/panel_alerta"
         android:layout_width="0dp"
@@ -99,7 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Fila cierre -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Emoji + título -->
+        
         <TextView
             android:id="@+id/panel_emoji"
             android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
             android:textColor="#9E9E9E"
             android:textSize="12sp" />
 
-        <!-- Descripción -->
+        
         <TextView
             android:id="@+id/panel_desc"
             android:layout_width="match_parent"
@@ -152,7 +152,7 @@
             android:textColor="#616161"
             android:textSize="13sp" />
 
-        <!-- Ubicación -->
+        
         <TextView
             android:id="@+id/panel_ubicacion"
             android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
             android:textColor="#9E9E9E"
             android:textSize="12sp" />
 
-        <!-- Estado y antigüedad -->
+        
         <TextView
             android:id="@+id/panel_estado"
             android:layout_width="wrap_content"
@@ -170,7 +170,7 @@
             android:textSize="12sp"
             android:textStyle="bold" />
 
-        <!-- Botones fila 1 -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                 app:strokeColor="#1A1A1A" />
         </LinearLayout>
 
-        <!-- Botones fila 2 -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -233,7 +233,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Botones de zoom (entre perfil y menú) -->
+    
     <LinearLayout
         android:id="@+id/zoom_bar"
         android:layout_width="wrap_content"
@@ -264,7 +264,7 @@
             app:srcCompat="@drawable/ic_menos" />
     </LinearLayout>
 
-    <!-- Botón de perfil (esquina inferior izquierda) -->
+    
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_perfil"
         android:layout_width="wrap_content"
@@ -276,7 +276,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_perfil" />
 
-    <!-- Botón flotante que abre el menú de opciones -->
+    
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_menu"
         android:layout_width="wrap_content"

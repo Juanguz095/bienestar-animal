@@ -89,7 +89,7 @@ class CrearPublicacionActivity : AppCompatActivity() {
         imgFoto = findViewById(R.id.img_foto)
         tvFotoHint = findViewById(R.id.tv_foto_hint)
 
-        // Foto desde la galería
+        
         findViewById<View>(R.id.contenedor_foto).setOnClickListener {
             pickerGaleria.launch("image/*")
         }
@@ -102,7 +102,7 @@ class CrearPublicacionActivity : AppCompatActivity() {
 
         configurarMapa()
 
-        // Tipo preseleccionado (ej. desde "Mascotas perdidas")
+        
         val tipoInicial = intent.getStringExtra(EXTRA_TIPO)
         if (tipoInicial != null) seleccionarTipo(tipoInicial)
 
@@ -127,12 +127,12 @@ class CrearPublicacionActivity : AppCompatActivity() {
         map.setMultiTouchControls(false)
         map.controller.setZoom(18.0)
 
-        // Si vino de mantener presionado el mapa, usar ese punto
+        
         val lat = intent.getDoubleExtra(EXTRA_LAT, Double.NaN)
         val lng = intent.getDoubleExtra(EXTRA_LNG, Double.NaN)
         val puntoInicial = if (!lat.isNaN() && !lng.isNaN()) GeoPoint(lat, lng) else null
 
-        // Centrar en la ubicación del usuario si es posible
+        
         val centro = puntoInicial ?: obtenerUbicacionActual() ?: GeoPoint(-12.0464, -77.0428)
         map.controller.setCenter(centro)
 
@@ -144,7 +144,7 @@ class CrearPublicacionActivity : AppCompatActivity() {
         }
         map.overlays.add(pinSeleccion)
 
-        // Tocar el mapa para elegir la ubicación
+        
         map.overlays.add(
             MapEventsOverlay(object : MapEventsReceiver {
                 override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {

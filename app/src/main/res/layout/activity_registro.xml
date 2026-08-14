@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     tools:context=".RegistroActivity">
 
-    <!-- Barra superior -->
+    
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -55,7 +55,7 @@
                 android:textColor="#9E9E9E"
                 android:textSize="13sp" />
 
-            <!-- Nombre -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="14sp" />
 
-            <!-- Correo -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="14sp" />
 
-            <!-- Contraseña -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="14sp" />
 
-            <!-- Confirmar contraseña -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="14sp" />
 
-            <!-- Error -->
+            
             <TextView
                 android:id="@+id/tv_error"
                 android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
                 android:textSize="12sp"
                 android:visibility="gone" />
 
-            <!-- Botón -->
+            
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_registrar"
                 style="@style/Widget.Material3.Button"

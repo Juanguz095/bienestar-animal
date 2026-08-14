@@ -12,11 +12,11 @@ class MenuOpcionesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_opciones)
 
-        // Cerrar el menú
+        
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_cerrar)
             .setOnClickListener { finish() }
 
-        // Navegación a pantallas existentes (el menú queda en la pila para poder volver)
+        
         findViewById<View>(R.id.item_adopciones).setOnClickListener {
             startActivity(Intent(this, AdopcionesActivity::class.java))
         }
@@ -37,7 +37,7 @@ class MenuOpcionesActivity : AppCompatActivity() {
             startActivity(Intent(this, DenunciasActivity::class.java))
         }
 
-        // Las demás opciones aún no tienen pantalla
+        
         val pendientes = emptyList<Int>()
         pendientes.forEach { id ->
             findViewById<View>(id).setOnClickListener {

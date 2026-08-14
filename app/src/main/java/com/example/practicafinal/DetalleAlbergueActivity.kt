@@ -50,7 +50,7 @@ class DetalleAlbergueActivity : AppCompatActivity() {
                 findViewById<TextView>(R.id.tv_descripcion).text = a.descripcion
                 findViewById<TextView>(R.id.tv_direccion).text = a.direccion
 
-                // Mini-mapa
+                
                 val map = findViewById<MapView>(R.id.mapa_albergue)
                 map.setUseDataConnection(true)
                 map.setTileSource(

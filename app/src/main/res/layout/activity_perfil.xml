@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     tools:context=".PerfilActivity">
 
-    <!-- Barra superior -->
+    
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -39,7 +39,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="24dp">
 
-            <!-- Avatar -->
+            
             <TextView
                 android:id="@+id/tv_avatar"
                 android:layout_width="88dp"
@@ -50,7 +50,7 @@
                 android:text="🐾"
                 android:textSize="44sp" />
 
-            <!-- Nombre -->
+            
             <TextView
                 android:id="@+id/tv_nombre"
                 android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Correo -->
+            
             <TextView
                 android:id="@+id/tv_correo"
                 android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
                 android:textColor="#9E9E9E"
                 android:textSize="13sp" />
 
-            <!-- Tipo de usuario -->
+            
             <TextView
                 android:id="@+id/tv_tipo"
                 android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
                 android:textColor="#616161"
                 android:textSize="12sp" />
 
-            <!-- Estadísticas -->
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Lista de opciones -->
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -336,7 +336,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Cerrar sesión -->
+            
             <LinearLayout
                 android:id="@+id/row_cerrar_sesion"
                 android:layout_width="match_parent"
@@ -364,7 +364,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Versión -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

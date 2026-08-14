@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     tools:context=".CrearPublicacionActivity">
 
-    <!-- Barra superior -->
+    
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -39,7 +39,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="28dp">
 
-            <!-- Tipo -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <!-- Foto (opcional) -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                     android:gravity="center" />
             </FrameLayout>
 
-            <!-- Nombre -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="14sp" />
 
-            <!-- Especie -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -202,7 +202,7 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <!-- Última vez visto -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -228,7 +228,7 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="14sp" />
 
-            <!-- Descripción -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -253,7 +253,7 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="14sp" />
 
-            <!-- Ubicación -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -278,7 +278,7 @@
                 android:textColor="#9E9E9E"
                 android:textSize="12sp" />
 
-            <!-- Error -->
+            
             <TextView
                 android:id="@+id/tv_error"
                 android:layout_width="wrap_content"
@@ -288,7 +288,7 @@
                 android:textSize="12sp"
                 android:visibility="gone" />
 
-            <!-- Publicar -->
+            
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_publicar"
                 style="@style/Widget.Material3.Button"

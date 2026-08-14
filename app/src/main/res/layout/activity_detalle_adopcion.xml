@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     tools:context=".DetalleAdopcionActivity">
 
-    <!-- Barra superior -->
+    
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -36,7 +36,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Foto -->
+            
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="220dp">
@@ -71,7 +71,7 @@
                     android:textStyle="bold" />
             </FrameLayout>
 
-            <!-- Nombre -->
+            
             <TextView
                 android:id="@+id/tv_nombre"
                 android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Descripción -->
+            
             <TextView
                 android:id="@+id/tv_descripcion"
                 android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                 android:textColor="#616161"
                 android:textSize="14sp" />
 
-            <!-- Ubicación -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <!-- Favorito -->
+            
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_favorito"
                 style="@style/Widget.Material3.Button.OutlinedButton"
@@ -120,7 +120,7 @@
                 android:textSize="13sp"
                 app:strokeColor="#E53935" />
 
-            <!-- WhatsApp -->
+            
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_whatsapp"
                 style="@style/Widget.Material3.Button.OutlinedButton"

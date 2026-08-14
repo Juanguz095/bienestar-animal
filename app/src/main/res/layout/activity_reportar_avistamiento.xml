@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     tools:context=".ReportarAvistamientoActivity">
 
-    <!-- Barra superior -->
+    
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -67,7 +67,7 @@
                 android:textColor="#9E9E9E"
                 android:textSize="12sp" />
 
-            <!-- Foto (opcional) -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                     android:gravity="center" />
             </FrameLayout>
 
-            <!-- Descripción -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Imagen con tag de especie -->
+        
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="140dp">
@@ -47,7 +47,7 @@
                 android:textStyle="bold" />
         </FrameLayout>
 
-        <!-- Nombre -->
+        
         <TextView
             android:id="@+id/tv_nombre"
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <!-- Subtítulo: edad y raza -->
+        
         <TextView
             android:id="@+id/tv_subtitulo"
             android:layout_width="match_parent"

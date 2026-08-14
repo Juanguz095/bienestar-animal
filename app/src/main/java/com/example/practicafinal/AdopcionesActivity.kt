@@ -40,7 +40,7 @@ class AdopcionesActivity : AppCompatActivity() {
         tvOpciones = findViewById(R.id.tv_opciones)
         rvAnimales.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        // Corazón de favoritos: abre la ventana de animales favoritos
+        
         findViewById<View>(R.id.btn_favoritos).setOnClickListener {
             startActivity(Intent(this, MisFavoritosActivity::class.java))
         }
@@ -51,7 +51,7 @@ class AdopcionesActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // Chips de filtro de especie
+        
         val chipTodos = findViewById<TextView>(R.id.chip_todos)
         val chipPerros = findViewById<TextView>(R.id.chip_perros)
         val chipGatos = findViewById<TextView>(R.id.chip_gatos)

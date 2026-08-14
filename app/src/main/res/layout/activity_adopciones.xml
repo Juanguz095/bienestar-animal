@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     tools:context=".AdopcionesActivity">
 
-    <!-- Barra superior -->
+    
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -21,7 +21,7 @@
         app:title="Adopciones"
         app:titleTextAppearance="@style/TextAppearance.AdopcionesTitle">
 
-        <!-- Corazón + contador -->
+        
         <LinearLayout
             android:id="@+id/btn_favoritos"
             android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
         </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- Contenido con scroll -->
+    
     <ScrollView
         android:id="@+id/scroll_content"
         android:layout_width="0dp"
@@ -66,7 +66,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Buscar -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="14sp" />
 
-            <!-- Filtros -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <!-- Encabezado: Animales encontrados -->
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -189,7 +189,7 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <!-- Lista horizontal de animales -->
+            
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_animales"
                 android:layout_width="match_parent"
@@ -198,14 +198,14 @@
                 android:clipToPadding="false"
                 android:paddingEnd="16dp" />
 
-            <!-- Separador de sección -->
+            
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="24dp"
                 android:background="#F0F0F0" />
 
-            <!-- Sección: ¿Cómo funciona la adopción? -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

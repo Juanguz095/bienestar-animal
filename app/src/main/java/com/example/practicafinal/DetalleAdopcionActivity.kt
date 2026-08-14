@@ -50,7 +50,7 @@ class DetalleAdopcionActivity : AppCompatActivity() {
     }
 
     private fun mostrar(p: Publicacion) {
-        // Foto
+        
         val imgFoto = findViewById<android.widget.ImageView>(R.id.img_foto)
         val tvPlaceholder = findViewById<TextView>(R.id.tv_placeholder)
         val foto = p.foto?.let { decodificarImagen(this, it, 2) }
@@ -61,7 +61,7 @@ class DetalleAdopcionActivity : AppCompatActivity() {
             tvPlaceholder.visibility = View.VISIBLE
         }
 
-        // Especie
+        
         val tvEspecie = findViewById<TextView>(R.id.tv_especie_detalle)
         if (!p.especie.isNullOrEmpty()) {
             tvEspecie.text = p.especie
@@ -73,7 +73,7 @@ class DetalleAdopcionActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tv_nombre).text = p.nombre
         findViewById<TextView>(R.id.tv_descripcion).text = p.descripcion
 
-        // Enlace para ver en Google Maps
+        
         findViewById<TextView>(R.id.tv_ubicacion).apply {
             text = "📍 Ver ubicación en el mapa"
             setOnClickListener {
@@ -87,7 +87,7 @@ class DetalleAdopcionActivity : AppCompatActivity() {
             }
         }
 
-        // Botón favorito
+        
         val btnFav = findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_favorito)
         actualizarBotonFavorito(btnFav)
         btnFav.setOnClickListener {
@@ -95,7 +95,7 @@ class DetalleAdopcionActivity : AppCompatActivity() {
             actualizarBotonFavorito(btnFav)
         }
 
-        // WhatsApp
+        
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_whatsapp)
             .setOnClickListener { contactarWhatsApp(p) }
     }

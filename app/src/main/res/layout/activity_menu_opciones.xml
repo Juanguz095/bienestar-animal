@@ -7,7 +7,7 @@
     android:background="#E6FFFFFF"
     tools:context=".MenuOpcionesActivity">
 
-    <!-- Tarjeta central -->
+    
     <LinearLayout
         android:id="@+id/card_menu"
         android:layout_width="0dp"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Título -->
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             android:textColor="#9E9E9E"
             android:textSize="12sp" />
 
-        <!-- Albergues / Organizaciones -->
+        
         <LinearLayout
             android:id="@+id/item_albergues"
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Fila: Adopciones | Denuncias -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Fila: Mascotas perdidas | Perfil -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Botón cerrar -->
+        
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cerrar"
             style="@style/Widget.Material3.Button.OutlinedButton"
